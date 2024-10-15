@@ -1,2 +1,2 @@
-Cập nhật thông tin phiếu gửi tiền
+Cập nhật thông tin phiếu gửi tiền (có D2, D3, D4, không có D1, D5, D6)
 Lập một table mới để lưu chi tiết những lần đáo hạn
