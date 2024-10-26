@@ -10,7 +10,8 @@ GO
 THAMSO
 ======================================================================*/
 CREATE TABLE THAMSO(
-	TienGuiToiThieu MONEY NOT NULL
+	TienGuiToiThieu MONEY NOT NULL,
+	NgayRutToiThieu INT NOT NULL
 )
 GO
 
@@ -51,7 +52,9 @@ CREATE TABLE PHIEUGUI (
 	-- Non-keys
 	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 3 = Khong tai tuc)
 	TienGui MONEY NOT NULL,
-	NgayGui SMALLDATETIME NOT NULL
+	NgayGui SMALLDATETIME NOT NULL,
+	NgayRut SMALLDATETIME NOT NULL,
+	SoTienRut MONEY NOT NULL,
 )
 GO
 
