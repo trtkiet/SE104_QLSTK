@@ -72,3 +72,39 @@ CREATE TABLE CTPHIEUGUI (
 	NgayCT SMALLDATETIME NOT NULL
 )
 GO
+
+/*====================================================================
+BAOCAODOANHSO
+======================================================================*/
+CREATE TABLE BAOCAODOANHSO(
+	-- Keys
+	MaDS INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
+	-- Non-keys
+	NgayDS SMALLDATETIME NOT NULL,
+	TongThu MONEY NOT NULL,
+	TongChi MONEY NOT NULL,
+	ChenhLechDS MONEY NOT NULL,
+)
+GO
+
+
+/*====================================================================
+BAOCAOGUIRUT 
+======================================================================*/
+CREATE TABLE BAOCAOGUIRUT(
+	-- Keysd
+	MaGR INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
+	--Non-keys
+	NgayBC TINYINT NOT NULL,
+	ThangBC TINYINT NOT NULL,
+	NamBC SMALLINT NOT NULL,
+	SLGui INT NOT NULL,
+	SLRut INT NOT NULL,
+	ChenhLechGR INT NOT NULL,
+)
+GO
+
+
+	
