@@ -28,13 +28,26 @@ CREATE TABLE LOAITK(
 GO
 
 /*====================================================================
-KHACHHANG
+NHOMNGUOIDUNG
 ======================================================================*/
-CREATE TABLE KHACHHANG(
+CREATE TABLE NHOMNGUOIDUNG(
 	-- Keys
-	MaKH INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+	MaNhom INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
 	-- Non-keys
-	TenKH VARCHAR(40) NOT NULL,
+	TenNhom NVARCHAR(20) NOT NULL
+)
+GO
+
+/*====================================================================
+NGUOIDUNG
+======================================================================*/
+CREATE TABLE NGUOIDUNG(
+	-- Keys
+	MaNguoiDung NVARCHAR(20) NOT NULL PRIMARY KEY,
+	MaNhom INT NOT NULL FOREIGN KEY REFERENCES NHOMNGUOIDUNG(MaNhom),
+	-- Non-keys
+	MatKhau NVARCHAR(255) NOT NULL,
+	TenNguoiDung VARCHAR(40) NOT NULL,
 	DinhDanh VARCHAR(40) NOT NULL,
 	DiaChi VARCHAR(40) NOT NULL,
 	SoDuKH MONEY NOT NULL
@@ -48,7 +61,7 @@ CREATE TABLE PHIEUGUI (
 	-- Keys
 	MaPhieu INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
-	MaKH INT NOT NULL FOREIGN KEY REFERENCES KHACHHANG(MaKH),
+	MaKH NVARCHAR(20) NOT NULL FOREIGN KEY REFERENCES NGUOIDUNG(MaNguoiDung),
 	-- Non-keys
 	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 3 = Khong tai tuc)
 	TienGui MONEY NOT NULL,
@@ -69,7 +82,7 @@ CREATE TABLE CTPHIEUGUI (
 	SoDu MONEY NOT NULL,
 	SoThayDoi MONEY NOT NULL,
 	SoRutVe MONEY NOT NULL,
-	NgayCT SMALLDATETIME NOT NULL
+	NgayThayDoi SMALLDATETIME NOT NULL
 )
 GO
 
