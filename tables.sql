@@ -53,8 +53,8 @@ CREATE TABLE PHIEUGUI (
 	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 3 = Khong tai tuc)
 	TienGui MONEY NOT NULL,
 	NgayGui SMALLDATETIME NOT NULL,
-	NgayRut SMALLDATETIME NOT NULL,
-	SoTienRut MONEY NOT NULL,
+	NgayRut SMALLDATETIME,
+	SoTienRut MONEY
 )
 GO
 
