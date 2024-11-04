@@ -105,7 +105,7 @@ GO
 BAOCAOGUIRUT 
 ======================================================================*/
 CREATE TABLE BAOCAOGUIRUT(
-	-- Keysd
+	-- Keys
 	MaGR INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
 	--Non-keys
