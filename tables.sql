@@ -28,6 +28,18 @@ CREATE TABLE LOAITK(
 GO
 
 /*====================================================================
+CHUCNANG
+======================================================================*/
+CREATE TABLE CHUCNANG(
+	-- Keys
+	MaCN INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+	-- Non-keys
+	TenCN NVARCHAR(20) NOT NULL,
+	TenManHinhDuocLoad NVARCHAR(20) NOT NULL
+)
+GO
+
+/*====================================================================
 NHOMNGUOIDUNG
 ======================================================================*/
 CREATE TABLE NHOMNGUOIDUNG(
@@ -35,6 +47,18 @@ CREATE TABLE NHOMNGUOIDUNG(
 	MaNhom INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
 	-- Non-keys
 	TenNhom NVARCHAR(20) NOT NULL
+)
+GO
+
+/*====================================================================
+PHANQUYEN
+======================================================================*/
+CREATE TABLE PHANQUYEN(
+	-- Keys
+	MaNhom INT NOT NULL FOREIGN KEY REFERENCES NHOMNGUOIDUNG(MaNhom),
+	MaCN INT NOT NULL FOREIGN KEY REFERENCES CHUCNANG(MaCN),
+	CONSTRAINT PK_PhanQuyen PRIMARY KEY(MaNhom, MaCN)
+	-- Non-keys
 )
 GO
 
