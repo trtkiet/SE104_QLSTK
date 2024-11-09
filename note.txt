@@ -5,3 +5,5 @@ Lãi suất, kỳ hạn áp dụng cho bảng PHIEUGUITIEN (trong trường hợ
 Bỏ báo cáo 5.2
 Báo cáo doanh số không tính thêm lãi suất
 Bỏ CTPhieuGuiTien thay vào đó có LaiSuatPhatSinh ở phiếu gửi tiền do không cần lưu lịch sử thay đổi nữa (báo cáo doanh số chỉ không tính  lãi suất)
+Lãi suất áp dụng
+Kỳ hạn áp dụng

@@ -23,7 +23,7 @@ CREATE TABLE LOAITK(
 	MaLoaiTK INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
 	-- Non-keys
 	KyHan SMALLINT NOT NULL,
-	LaiSuat FLOAT NOT NULL
+	LaiSuat DOUBLE NOT NULL
 )
 GO
 
@@ -84,9 +84,10 @@ PHIEUGUI
 CREATE TABLE PHIEUGUI (
 	-- Keys
 	MaPhieu INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
 	MaKH NVARCHAR(20) NOT NULL FOREIGN KEY REFERENCES NGUOIDUNG(MaNguoiDung),
 	-- Non-keys
+	KyHanApDung SMALLINT NOT NULL,
+	LaiSuatApDung DOUBLE NOT NULL,
 	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 3 = Khong tai tuc)
 	NgayGui SMALLDATETIME NOT NULL,
 	TienGui MONEY NOT NULL,
@@ -95,20 +96,6 @@ CREATE TABLE PHIEUGUI (
 )
 GO
 
-/*====================================================================
-CTPHIEUGUI
-======================================================================*/
-CREATE TABLE CTPHIEUGUI (
-	-- Keys
-	MaCT INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	MaPhieu INT NOT NULL FOREIGN KEY REFERENCES PHIEUGUI(MaPhieu),
-	-- Non-keys
-	SoDu MONEY NOT NULL,
-	SoThayDoi MONEY NOT NULL,
-	SoRutVe MONEY NOT NULL,
-	NgayThayDoi SMALLDATETIME NOT NULL
-)
-GO
 /*====================================================================
 BAOCAODOANHSO
 ======================================================================*/
@@ -124,23 +111,6 @@ CREATE TABLE BAOCAODOANHSO(
 )
 GO
 
-
-/*====================================================================
-BAOCAOGUIRUT 
-======================================================================*/
-CREATE TABLE BAOCAOGUIRUT(
-	-- Keys
-	MaGR INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
-	--Non-keys
-	NgayBC TINYINT NOT NULL,
-	ThangBC TINYINT NOT NULL,
-	NamBC SMALLINT NOT NULL,
-	SLGui INT NOT NULL,
-	SLRut INT NOT NULL,
-	ChenhLechGR INT NOT NULL,
-)
-GO
 
 
 
