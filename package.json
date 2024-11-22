@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/trtkiet/SE104_QLSTK/issues"
   },
-  "homepage": "https://github.com/trtkiet/SE104_QLSTK#readme"
+  "homepage": "https://github.com/trtkiet/SE104_QLSTK#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
 }
