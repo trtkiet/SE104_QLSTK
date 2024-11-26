@@ -1,0 +1,22 @@
+<h1>Phiếu rút tiền</h1>
+<form id="withdrawal-form">
+    <div class="form-group">
+        <label for="transaction-id">Mã phiếu:</label>
+        <input type="text" id="transaction-id" name="transaction-id" placeholder="Nhập mã phiếu" value="{{transactionId}}" required>
+    </div>
+    <div class="form-group">
+        <label for="customer-name">Khách hàng:</label>
+        <input type="text" id="customer-name" name="customer-name" placeholder="Nhập tên khách hàng" value="{{customerName}}" required>
+    </div>
+    <div class="form-group">
+        <label for="withdrawal-date">Ngày rút:</label>
+        <input type="date" id="withdrawal-date" name="withdrawal-date" value="{{withdrawalDate}}" required>
+    </div>
+    <div class="form-group">
+        <label for="withdrawal-amount">Số tiền rút:</label>
+        <input type="number" id="withdrawal-amount" name="withdrawal-amount" placeholder="Nhập số tiền rút" value="{{withdrawalAmount}}" min="0" required>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn-submit">Rút tiền</button>
+    </div>
+</form>
