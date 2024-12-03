@@ -1,0 +1,46 @@
+<h1>Phiếu gửi tiền </h1>
+<form id="deposit-form">
+    <div class="form-group">
+        <label for="citizen-id">CCCD/CMND:</label>
+        <input type="text" id="citizen-id" name="citizen-id" placeholder="Nhập mã CCCD/CMND" value="{{citizenId}}" required>
+    </div>
+    <div class="form-group">
+        <label for="customer-name">Họ và tên:</label>
+        <input type="text" id="customer-name" name="customer-name" placeholder="Nhập tên khách hàng" value="{{customerName}}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="home-address">Địa chỉ:</label>
+        <input type="text" id="home-address" name="home-address" placeholder="Nhập nơi ở hiện tại" value="{{homeAddress}}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="deposit-type">Loại tiết kiệm:</label>
+        <input type="text" id="deposit-type" name="deposit-type" placeholder="Nhập loại tiết kiệm" value="{{depositType}}" required>
+        
+    </div>
+    
+    <div class="form-group">
+        <label for="deposit-date">Ngày gửi:</label>
+        <input type="date" id="deposit-date" name="deposit-date" value="{{depositDate}}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="deposit-amount">Số tiền gửi:</label>
+        <input type="number" id="deposit-amount" name="deposit-amount" placeholder="Nhập số tiền gửi" step="500" min="0" required>
+    </div>
+
+    <div class="form-group">
+        <label for="maturity-method">Phương thức đáo hạn:</label>
+        <input type="text" id="maturity-method" name="maturity-method" list="choice" autocomplete="off" required>
+        <datalist id="choice">
+            {{#each InterestType}}
+            <option value="{{this.Term}} tháng - {{this.InterestRate}}%">
+                {{/each}}
+        </datalist>
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn-submit">Gửi tiền</button>
+    </div>
+</form>
