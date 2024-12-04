@@ -1,5 +1,6 @@
 // const userM = require('../models/user.m');
-//const passbookM = require('../models/passbook.m')
+const passbookM = require('../models/passbook.m')
+const userM = require('../models/user.m')
 
 
 module.exports = {
@@ -49,25 +50,25 @@ module.exports = {
             })
         }
     },
-    // blockOrunlock: async (req, res) => {
-    //     const lockorunlock = await passbookM.blockOrunlock(req.body.text, req.body.InterestTypeID)
-    //     if (lockorunlock == 'err')
-    //         res.json({ msg: `Lỗi khi thay đổi trạng thái của loại tiết kiệm ${req.body.InterestTypeID}` })
-    //     else
-    //         res.json({ msg: `Thay đổi thành công` })
-    // },
-    // addInterestType: async (req, res) => {
-    //     const addInterestType = await passbookM.addInterestType(req.body.InterestRate, req.body.Term, req.body.MinimumTimeToWithdrawal)
-    //     if (addInterestType == 'err')
-    //         res.json({ msg: `Lỗi trùng kì hạn và lãi suất vui lòng mở khóa hoặc sử dụng lại cái đã có` })
-    //     else
-    //         res.json({ msg: `Thêm thành công thành công` })
-    // },
-    // updateInterestType: async (req, res) => {
-    //     const addInterestType = await passbookM.updateInterestType(req.body.InterestTypeID, req.body.MinimumTimeToWithdrawal)
-    //     if (addInterestType == 'err')
-    //         res.json({ msg: `Lỗi khi sửa thời gian tối thiểu` })
-    //     else
-    //         res.json({ msg: `Thay đổi thành công` })
-    // }
+    blockOrunlock: async (req, res) => {
+        const lockorunlock = await passbookM.blockOrunlock(req.body.text, req.body.InterestTypeID)
+        if (lockorunlock == 'err')
+            res.json({ msg: `Lỗi khi thay đổi trạng thái của loại tiết kiệm ${req.body.InterestTypeID}` })
+        else
+            res.json({ msg: `Thay đổi thành công` })
+    },
+    addInterestType: async (req, res) => {
+        const addInterestType = await passbookM.addInterestType(req.body.InterestRate, req.body.Term, req.body.MinimumTimeToWithdrawal)
+        if (addInterestType == 'err')
+            res.json({ msg: `Lỗi trùng kì hạn và lãi suất vui lòng mở khóa hoặc sử dụng lại cái đã có` })
+        else
+            res.json({ msg: `Thêm thành công thành công` })
+    },
+    updateInterestType: async (req, res) => {
+        const addInterestType = await passbookM.updateInterestType(req.body.InterestTypeID, req.body.MinimumTimeToWithdrawal)
+        if (addInterestType == 'err')
+            res.json({ msg: `Lỗi khi sửa thời gian tối thiểu` })
+        else
+            res.json({ msg: `Thay đổi thành công` })
+    }
 }
