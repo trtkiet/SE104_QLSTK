@@ -1,12 +1,12 @@
 module.exports = {
-    server: 'DESKTOP-QMRHGIJ\\SQLEXPRESS',
-    user: 'admin',
-    password: '123',
+    server: 'localhost',
+    user: 'test',
+    password: '1234',
     database: 'SOTIETKIEM',
     options: {
         truesconnection: true,
-        instancename: 'user',
-        trustServerCertificate: true
+        instancename: 'SQLEXPRESS',
+        trustServerCertificate: true,
     },
     port: 1433
 

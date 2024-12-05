@@ -1,4 +1,3 @@
-create database SOTIETKIEM
 use SOTIETKIEM
 
 

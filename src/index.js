@@ -13,6 +13,11 @@ searchR = require('./routes/search.r')
 reportR = require('./routes/report.r')
 // const passport = require('passport');
 const passport = require('./config/passportConfig')
+const Connection = require('tedious').Connection
+const Request = require('tedious').Request
+
+const connection = new Connection(require('./config/cnStr'))
+
 
 require('dotenv').config()
 require('./config/exphbsConfig')(app);

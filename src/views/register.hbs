@@ -3,38 +3,43 @@
             <div id="title">Register</div>
             <div id="form_input">
                 <div id="username_box">
-                    <input id="username" type="text" placeholder="USERNAME" name="username" maxlength="15">
+                    <input id="username" type="text" placeholder="Tên đăng nhập" name="username" maxlength="15">
                     <div id="username_warning"></div>
                 </div>
 
+                <div id="name_box">
+                    <input id="name" type="text" placeholder="Họ và tên" name="fullname"  maxlength="30">
+                    <div id="name_warning"></div>
+                </div>
+
                 <div id="pasword_box">
-                    <input id="password" type="password" placeholder="PASSWORD" name="password"  maxlength="15">
+                    <input id="password" type="password" placeholder="Mật khẩu" name="password"  maxlength="15">
                     <div id="pass_warning"></div>
                 </div>
 
-                <div id="email_box">
-                    <input id="email" type="text" placeholder="EMAIL" name="email" maxlength="40">
-                    <div id="email_warning"></div>
-                </div>
-           
                 <div id="repass_box">
-                    <input id="repassword" type="password" placeholder="RE-ENTER PASSWORD" name="repassword"  maxlength="15">
+                    <input id="repassword" type="password" placeholder="Nhập lại mật khẩu" name="repassword"  maxlength="15">
                     <div id="repass_warning"></div>
                 </div>
-
-                <div id="name_box">
-                    <input id="name" type="text" placeholder="NAME" name="fullname"  maxlength="30">
-                    <div id="name_warning"></div>
-                </div>
-                
+           
                 <div id="phone_box">
-                    <input id="phone" type="text" placeholder="PHONE NUMBER" name="phonenumber"  maxlength="10">
+                    <input id="phone" type="text" placeholder="Số điện thoại" name="phonenumber"  maxlength="10">
                     <div id="phone_warning"></div>
-                </div>            
+                </div>  
+
+                <div id="id_box">
+                    <input id="id" type="text" placeholder="Số CMND/CCCD" name="id"  maxlength="20">
+                    <div id="id_warning"></div>
+                </div>         
+
+                <div id="address_box">
+                    <input id="address" type="text" placeholder="Địa chỉ" name="address"  maxlength="100">
+                    <div id="address_warning"></div>
+                </div>     
             </div>
             <div id="btn_side">
-                <input id="registerBtn" type="submit" value="Register"></input>
-                <a href="/login"><button id="loginBtn" type="button">Login</button></button></a>
+                <input id="registerBtn" type="submit" value="Đăng kí"></input>
+                <a href="/login"><button id="loginBtn" type="button">Đăng Nhập</button></button></a>
             </div>
             
         </form>

@@ -20,7 +20,7 @@ body {
 
 #form {
     width: 750px;
-    height: 430px;
+    height: 530px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@ body {
 
 #form_input {
     width: 80%;
-    height: 200px;
+    height: 300px;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 80px 80px;
@@ -51,12 +51,30 @@ body {
 }
 
 #form_input div input {
-    height: 30px;
+    height: 50px;
     width: 250px;
     padding: 0 10px;
     border: 1px solid gray;
     border-radius: 10px;
 }
+
+#address_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#address_box input{
+    height: 50px;
+    width: 500px;
+    padding: 0 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+
+
+
 
 #form_input div div {
     color: red;
