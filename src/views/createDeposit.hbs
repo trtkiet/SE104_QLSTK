@@ -8,7 +8,7 @@
     <div class="wrapper">
         <form action="#" id="form" method="POST">
             <div class="citizenIDBox box">
-                <label for="citizenID">CMND/CCCD<div class="asterisk" style="color:red;">*</div>:</label> 
+                <label for="citizenID">CMND / CCCD<div class="asterisk" style="color:red;">*</div>:</label> 
                 <input type="text" id="citizenID" name="citizenID"
                     placeholder="Nếu tồn tại CMND/CCCD thì tự động cập nhật thông tin" maxlength="12">
             </div>
@@ -42,6 +42,16 @@
                 <input type="number" id="deposit" name="deposit" placeholder="Nhập số tiền gửi" step="500"
                     min={{Params}}>
             </div>
+            <div class="typeBox box">
+                        <label for="type">Loại tái tục<div class="asterisk" style="color:red;">*</div>: </label> 
+                        <input id="type" name="type" placeholder="Chọn loại tái tục" list="choice1" autocomplete="off">
+                         <datalist id="choice1">
+                            <option value="Tái tục gốc">
+                            <option value="Tái tục toàn bộ">
+                            <option value="Không tái tục">
+                        </datalist>
+                        <div id="type_warning"> </div>
+                        </div>
             <div id="btn_side">
                 <input id="confirmBtn" type="submit" value="Tạo"></input>
                 <a href="./home"><button id="gobackBtn" type="button">Quay lại</button></button></a>
