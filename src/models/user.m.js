@@ -4,15 +4,8 @@ const db = require('../config/connectDB')
 module.exports = {
     addUser: async user => {
         try {
-            oldeAccount = await db.Query(`select * from Accounts where Username='${user.Username}'`)
-            if (!oldeAccount.length) {
-                maxAccountId = await db.Query('select max(AccountID) as max  from Accounts')
-                nextAccountId = parseInt(maxAccountId[0].max) + 1
-                if (maxAccountId[0].max === null) maxAccountId[0].max = 0;
-                a = await db.Query(`insert into Accounts (AccountID,Username,AccountTypeID, AccountPasword) values ('${nextAccountId}', N'${user.Username}', '${user.AccountTypeID}', N'${user.Password}')`)
-                return 0
-            }
-            else return 1
+            a = await db.Query(`insert into NguoiDung (MaNguoiDung, MaNhom, MatKhau, TenNguoiDung, DinhDanh, DiaChi, SoDuNguoiDung) values ('${user.username}', N'${1}', N'${user.password}', N'${user.fullname}', '${user.id}', '${user.addr}', N'${0}')`)
+            return 0
         }
         catch (error) {
             console.log(error)
@@ -20,7 +13,13 @@ module.exports = {
         }
     },
     getAccountByUsername: async Username => {
-        var rs = await db.Query(`select * from Accounts where Username= '${Username}'`)
+        var rs = await db.Query(`select * from NGUOIDUNG where MaNguoiDung= '${Username}'`)
+        // console.log(rs)
+        return rs;
+    },
+    getAccountByID: async ID => {
+        var rs = await db.Query(`select * from NGUOIDUNG where DinhDanh= '${ID}'`)
+        // console.log(rs)
         return rs;
     },
     getAccountTypeByUsername: async Username => {

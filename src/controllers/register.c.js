@@ -5,7 +5,7 @@ const userM = require('../models/user.m')
 module.exports = {
     registerGet: (req, res) => {
         if (req.isAuthenticated()) {
-            return res.redirect('/dashboard');
+            return res.redirect('/home');
         }
         res.render('register', {
             title: "Register",
@@ -15,31 +15,28 @@ module.exports = {
     },
     registerPost: async (req, res) => {
         const pw = req.body.password;
+        // console.log(req.body);
         var hashedpw = await bcrypt.hash(pw, 10);
         const user = {
             username: req.body.username,
             password: hashedpw,
-            email: req.body.email,
             fullname: req.body.fullname,
-            phonenumber: req.body.phonenumber,
+            id: req.body.id,
+            addr: req.body.address,
         }
         const checkUn = await userM.getAccountByUsername(user.username);
-        if (checkUn) {
+        if (checkUn.length) {
             res.send({ msg: 'Username has already exist' });
             return;
         }
-        const checkEmail = await userM.getCustomerByEmail(user.email);
-        if (checkEmail) {
-            res.send({ msg: 'Email has already exist' });
+        // console.log(user);
+        const checkID = await userM.getAccountByID(user.id);
+        if (checkID.length) {
+            res.send({ msg: 'CMND/CCCD has already exist' })
             return;
         }
-        const checkPhonenumber = await userM.getCustomerByPhonenumber(user.phonenumber);
-        if (checkPhonenumber) {
-            res.send({ msg: 'Phone number has already exist' })
-            return;
-        }
-        await userM.add(user)
-        req.logIn(user, function (err) {
+        await userM.addUser(user)
+        req.logIn(user.username, function (err) {
             if (err) return next(err);
             // console.log('is authenticated?: ' + req.isAuthenticated());
             return res.send({ msg: "succeed" })

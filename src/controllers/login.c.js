@@ -11,7 +11,7 @@ module.exports = {
         })
     },
     loginAuth: (req, res, next) => {
-        passport.authenticate('local', { session: true }, (err, user) => {
+        passport.authenticate('local', { session: true }, (err, user) => {  
             if (err || !user) {
                 return res.send({ msg: "Wrong username or password" })
             }

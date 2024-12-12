@@ -2,7 +2,7 @@ module.exports = {
     server: 'localhost',
     user: 'test',
     password: '1234',
-    database: 'SOTIETKIEM',
+    database: 'QLSTK',
     options: {
         truesconnection: true,
         instancename: 'SQLEXPRESS',

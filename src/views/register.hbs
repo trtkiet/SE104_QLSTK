@@ -1,5 +1,5 @@
 <div id="main">
-        <form id="form" method="POST" action="/register">
+        <form id="form" method="post" action="/register">
             <div id="title">Register</div>
             <div id="form_input">
                 <div id="username_box">
@@ -20,12 +20,7 @@
                 <div id="repass_box">
                     <input id="repassword" type="password" placeholder="Nhập lại mật khẩu" name="repassword"  maxlength="15">
                     <div id="repass_warning"></div>
-                </div>
-           
-                <div id="phone_box">
-                    <input id="phone" type="text" placeholder="Số điện thoại" name="phonenumber"  maxlength="10">
-                    <div id="phone_warning"></div>
-                </div>  
+                </div> 
 
                 <div id="id_box">
                     <input id="id" type="text" placeholder="Số CMND/CCCD" name="id"  maxlength="20">
@@ -38,7 +33,7 @@
                 </div>     
             </div>
             <div id="btn_side">
-                <input id="registerBtn" type="submit" value="Đăng kí"></input>
+                <button id="registerBtn" type="submit" value="Đăng kí">Đăng Kí</button>
                 <a href="/login"><button id="loginBtn" type="button">Đăng Nhập</button></button></a>
             </div>
             

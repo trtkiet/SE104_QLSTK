@@ -9,23 +9,24 @@ passport.serializeUser((user, done) => {
 })
 passport.deserializeUser(async (Username, done) => {
     try {
+        // console.log(Username);
         const user = await userM.getAccountByUsername(Username);
-        done(null, user[0].Username);
+        done(null, user[0].MaNguoiDung);
     }
     catch (err) {
         done(err, null);
-    }
+    }   
 })
 passport.use(new localStrategy(
     async (Username, Password, done) => {
         try {
-
             const user = await userM.getAccountByUsername(Username)
+            // console.log(user)
             if (!user) return done(null, false)
-            // let cmp = await bcrypt.compare(password, user[0].ENCRYPT_PASSWORD)
-            const cmp = Password == user[0].AccountPassword
-            if (!cmp) return done(null, false)
-            return done(null, user[0].Username);
+            // console.log(Password)
+            // console.log(user[0].MatKhau)
+            if (!bcrypt.compare(Password, user[0].MatKhau)) return done(null, false)
+            return done(null, user[0].MaNguoiDung);
         }
         catch (err) {
             return done(err);
