@@ -4,7 +4,7 @@ const passbookC = require('../controllers/passbook.c.js')
 
 router.get('/', passbookC.createDepositGet)
 router.get('/print', passbookC.printDepositsGet)
-router.post('/getcustomes', passbookC.getcustomerspost)
+// router.post('/getcustomes', passbookC.getcustomerspost)
 
 router.post('/', passbookC.createDepositPost)
 

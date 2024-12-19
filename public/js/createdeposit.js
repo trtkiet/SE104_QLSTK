@@ -1,33 +1,11 @@
 
 const postCitizenID = document.getElementById('citizenID')
-postCitizenID.onchange = () => {
-
-    postData('deposit/getcustomes', { id: postCitizenID.value })
-        .then(data => {
-            if (data.status == true) {
-                document.getElementById('fullname').value = data.data.CustomerName
-                document.getElementById('address').value = data.data.CustomerAddress
-                document.getElementById('phone').value = data.data.PhoneNumber
-                document.getElementById('fullname').setAttribute('readonly', true)
-                document.getElementById('address').setAttribute('readonly', true)
-                document.getElementById('phone').setAttribute('readonly', true)
-            }
-            else {
-                document.getElementById('fullname').value = ''
-                document.getElementById('address').value = ''
-                document.getElementById('phone').value = ''
-                document.getElementById('fullname').removeAttribute('readonly')
-                document.getElementById('address').removeAttribute('readonly')
-                document.getElementById('phone').removeAttribute('readonly')
-            }
-        })
-
-}
 var nameRegex =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
 var idRegex = /([1-9]{1})+([0-9]{8,11})\b/;
 
 function checkinput() {
+    // console.log('Checkkkkkkkkkkk')
     var type = $("input[name = 'type']:checked").val();
     if ($("#citizenID").val().trim() == "") {
         alert("CMND/CCCD không hợp lệ!");
@@ -49,14 +27,6 @@ function checkinput() {
     }
     if ($("#address").val().trim() == "") {
         alert("Địa chỉ không hợp lệ!");
-        return false;
-    }
-    if ($("#phone").val().trim() == "") {
-        alert("Số điện thoại không hợp lệ!");
-        return false;
-    }
-    if ($("#phone").val().trim() != "" && idRegex.test($("#phone").val()) == false) {
-        alert("Số điện thoại không hợp lệ!");
         return false;
     }
     if ($("#type").val().trim() == "") {
@@ -90,6 +60,28 @@ inputField.addEventListener('change', function () {
     }
     return true;
 });
+
+var inputField1 = document.getElementById('type1');
+var dataList1 = document.getElementById('choice1').getElementsByTagName('option');
+inputField1.addEventListener('change', function () {
+    var inputValue = inputField1.value;
+    var valueExists = false;
+
+    for (var i = 0; i < dataList1.length; i++) {
+        if (inputValue === dataList1[i].value) {
+            valueExists = true;
+            break;
+        }
+    }
+
+    if (!valueExists) {
+        alert("Chọn loại tái tục có sẵn!")
+        inputField1.value = ''; // Xóa giá trị nhập vào nếu không tồn tại trong danh sách
+        return false;
+    }
+    return true;
+});
+
 document.getElementById("form").addEventListener('submit', function (event) {
     console.log('click')
     event.preventDefault();
@@ -108,7 +100,7 @@ document.getElementById("form").addEventListener('submit', function (event) {
                 .then((data) => {
                     alert(data.msg)
                     if (data.msg == "Gửi tiền thành công") {
-                        window.open("/deposit/print", '_blank');
+                        // window.open("/deposit/print", '_blank');
                     }
                 })
 

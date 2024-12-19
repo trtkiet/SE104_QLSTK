@@ -78,7 +78,7 @@ $("#form").submit(function(e) {
             if(data.msg !== "succeed") alert(data.msg); 
             else {
                 alert("Đăng ký thành công!")
-                window.location.replace("/dashboard");
+                window.location.replace("/home");
             }
             }
         });

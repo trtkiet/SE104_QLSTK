@@ -1,4 +1,4 @@
-USE master
+﻿USE master
 GO
 DROP DATABASE IF EXISTS QLSTK
 CREATE DATABASE QLSTK
@@ -27,6 +27,10 @@ CREATE TABLE LOAITK(
 )
 GO
 
+INSERT INTO LOAITK VALUES(1, 0.005)
+INSERT INTO LOAITK VALUES(90, 0.05)
+INSERT INTO LOAITK VALUES(180, 0.055)
+
 /*====================================================================
 CHUCNANG
 ======================================================================*/
@@ -49,6 +53,10 @@ CREATE TABLE NHOMNGUOIDUNG(
 	TenNhom NVARCHAR(20) NOT NULL
 )
 GO
+INSERT INTO NHOMNGUOIDUNG VALUES(N'Khách hàng')
+INSERT INTO NHOMNGUOIDUNG VALUES(N'Nhân viên')
+INSERT INTO NHOMNGUOIDUNG VALUES(N'Quản trị viên')
+GO
 
 /*====================================================================
 PHANQUYEN
@@ -67,13 +75,13 @@ NGUOIDUNG
 ======================================================================*/
 CREATE TABLE NGUOIDUNG(
 	-- Keys
-	MaNguoiDung INT NOT NULL PRIMARY KEY,
+	MaNguoiDung NVARCHAR(20) NOT NULL PRIMARY KEY,
 	MaNhom INT NOT NULL FOREIGN KEY REFERENCES NHOMNGUOIDUNG(MaNhom),
 	-- Non-keys
 	MatKhau NVARCHAR(255) NOT NULL,
-	TenNguoiDung VARCHAR(40) NOT NULL,
+	TenNguoiDung NVARCHAR(40) NOT NULL,
 	DinhDanh VARCHAR(40) NOT NULL,
-	DiaChi VARCHAR(40) NOT NULL,
+	DiaChi NVARCHAR(40) NOT NULL,
 	SoDuNguoiDung MONEY NOT NULL
 )
 GO
@@ -85,12 +93,12 @@ CREATE TABLE PHIEUGUI (
 	-- Keys
 	MaPhieu INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
-	MaKH INT NOT NULL FOREIGN KEY REFERENCES NGUOIDUNG(MaNguoiDung),
+	MaKH NVARCHAR(20) NOT NULL FOREIGN KEY REFERENCES NGUOIDUNG(MaNguoiDung),
 	-- Non-keys
 	KyHanApDung SMALLINT NOT NULL,
 	LaiSuatApDung FLOAT NOT NULL,
 	NgayDaoHan SMALLDATETIME NOT NULL,
-	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 3 = Khong tai tuc)
+	LoaiTaiTuc INT NOT NULL, -- (0 = Tai tuc goc, 1 = Tai tuc toan bo, 2 = Khong tai tuc)
 	NgayGui SMALLDATETIME NOT NULL,
 	TienGui MONEY NOT NULL,
 	TienLai MONEY NOT NULL,
@@ -113,4 +121,58 @@ CREATE TABLE BAOCAODOANHSO(
 )
 GO
 
+GO
+CREATE PROCEDURE dbo.getInterestType
+			@KyHan SMALLINT = NULL,
+			@LaiSuat FLOAT = NULL,
+			@MaLoaiTK INT = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+	IF (@MaLoaiTK IS NULL AND @KyHan IS NULL AND @LaiSuat IS NULL)
+		BEGIN
+			SELECT * 
+			FROM LOAITK 
+		END
+	ELSE IF (@MaLoaiTK IS NULL AND @Kyhan IS NOT NULL AND @LaiSuat IS NOT NULL)
+		BEGIN
+			SELECT * 
+			FROM LOAITK
+			WHERE KyHan = @KyHan AND LaiSuat = @LaiSuat
+		END
+END
+GO
 
+DROP PROCEDURE dbo.addDeposit
+
+GO
+CREATE PROCEDURE dbo.addDeposit 
+					@CustomerID NVARCHAR(20), 
+					@InterestTypeID INT, 
+					@Fund MONEY,
+					@LoaiTT INT
+AS
+BEGIN
+	SET NOCOUNT ON
+	-- Check if the customer or the given interest type is in the database 
+	IF (NOT EXISTS (SELECT * FROM LoaiTK WHERE @InterestTypeID = MaLoaiTK) -- invalid Type
+		OR NOT EXISTS (SELECT * FROM NGUOIDUNG WHERE @CustomerID = MaNguoiDung)) -- invalid customer
+		BEGIN
+			SELECT 2 AS err -- khong co KhachHang hoac LoaiTK
+			RETURN 
+		END
+	DECLARE @KyHanApDung SMALLINT,
+			@LaiSuatApDung FLOAT,
+			@NgayDaoHan SMALLDATETIME
+	SELECT @KyHanApDung = KyHan, 
+			@LaiSuatApDung = LaiSuat
+	FROM LOAITK 
+	WHERE MaLoaiTK = @InterestTypeID
+	SELECT @NgayDaoHan = GETDATE() + @KyHanApDung
+	INSERT INTO PHIEUGUI 
+	VALUES (@InterestTypeID, @CustomerID, @KyHanApDung, @LaiSuatApDung, @NgayDaoHan, @LoaiTT, GETDATE(), @Fund, 0, NULL);
+	SELECT 1 as err
+END
+GO
+
+EXEC dbo.addDeposit 'trtkiet', 3, 100000, 2

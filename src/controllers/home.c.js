@@ -11,7 +11,7 @@ module.exports = {
         const accountType = await userM.getAccountTypeByUsername(req.session.passport.user)
         const isAdmin = (accountType[0].AccountTypeName == "Admin" ? true : false)
         if (!isAdmin) {
-            var InterestTypeadad = await passbookM.getInterestType()
+            var InterestTypeadad = await passbookM.getLoaiTK()
         }
         else {
             var InterestTypeadad = await passbookM.getInterestTypeAll()

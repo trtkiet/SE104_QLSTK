@@ -4,15 +4,18 @@ const { Int } = require('mssql');
 
 
 module.exports = {
-    getcustomerspost: async (req, res) => {
-        customer = await userM.getCustomerDetailWithCitizenID(req.body.id)
-        if (customer.length == 0)
-            res.json({ status: false })
-        else
-            res.json({ status: true, data: customer[0] })
-    },
+    // getcustomerspost: async (req, res) => {
+    //     customer = await userM.getCustomerDetailWithCitizenID(req.body.id)
+    //     if (customer.length == 0)
+    //         res.json({ status: false })
+    //     else
+    //         res.json({ status: true, data: customer[0] })
+    // },
     createDepositGet: async (req, res) => {
-        const InterestType = await passbookM.getInterestType()
+        const username = req.session.passport.user
+        const LoaiTK = await passbookM.getLoaiTK()
+        const user = await userM.getAccountByUsername(username)
+        // console.log(user)
         const Params = await passbookM.getParams()
         res.render('createDeposit', {
             active: { deposit: true },
@@ -21,38 +24,35 @@ module.exports = {
             style: ["form.css"],
             script: "createdeposit.js",
             form: true,
+            DinhDanh: user[0].DinhDanh,
+            TenNguoiDung: user[0].TenNguoiDung,
+            DiaChi: user[0].DiaChi,
+            // username: Username,
+            LoaiTK: LoaiTK,
             // InterestType: InterestType,
             // MinMoneyDeposit: null,
             // Params: (Params.length == 0) ? 0 : Params[0].MinimumDeposit
         })
     },
     createDepositPost: async (req, res) => {
-        const customer = await userM.getCustomerDetailWithCitizenID(req.body.citizenID)
-        const InterestTypeID = await passbookM.getInterestType(req.body.type.split(' ')[0], req.body.type.split(' ')[3].replace('%', ''))
-        var CustomerID = -1
-        if (customer.length == 0) {
-            Customers = {
-                CustomerName: req.body.fullname,
-                PhoneNumber: req.body.phone,
-                CitizenID: req.body.citizenID,
-                CustomerAddress: req.body.address,
-            }
-            CustomerID = await userM.addCustomer(Customers)
-            CustomerID = CustomerID[0].CustomerID
-            if (!CustomerID)
-                res.json({ msg: "Lỗi khi thêm khách hàng!" })
-        }
-        else {
-            CustomerID = customer[0].CustomerID
-        }
+        const username = req.session.passport.user
+        const user = await userM.getAccountByUsername(username)
+        // console.log(req.body.type)
+        const LoaiTK = await passbookM.getLoaiTK(req.body.type.split(' ')[0], req.body.type.split(' ')[3].replace('%', ''))
+        const LoaiTT = await passbookM.getLoaiTT(req.body.type1)
+        // console.log(LoaiTK)
         Deposits = {
-            CustomerID: CustomerID,
-            InterestTypeID: InterestTypeID[0].InterestTypeID,
-            Fund: req.body.deposit
+            username: username,
+            MaLoaiTK: LoaiTK[0].MaLoaiTK,
+            Fund: parseInt(req.body.deposit),
+            LoaiTaiTuc: LoaiTT
         }
+        // console.log(Deposits)
         const DepositInfo = await passbookM.addDeposits(Deposits)
-        if (DepositInfo[0].err != 1) {
-            req.session.printdeposit = { DepositID: DepositInfo[0].DepositID }
+        console.log(DepositInfo)
+        if (DepositInfo[0].err != 2) {
+            console.log('whyy')
+            // req.session.printdeposit = { DepositID: DepositInfo[0].DepositID }
             res.json({ msg: "Gửi tiền thành công" })
         }
         else {

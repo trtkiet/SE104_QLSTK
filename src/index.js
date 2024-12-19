@@ -56,6 +56,7 @@ app.use((req, res, next) => {
     }
     res.redirect('/login');
 })
+
 app.get('/', (req, res) => {
     res.redirect('/home')
 })

@@ -2,7 +2,8 @@ const db = require('../config/connectDB')
 
 module.exports = {
     addDeposits: async Deposits => {
-        rs = await db.Query(`EXEC dbo.addDeposit '${Deposits.CustomerID}','${Deposits.InterestTypeID}','${Deposits.Fund}'`)
+        rs = await db.Query(`EXEC dbo.addDeposit '${Deposits.username}','${Deposits.MaLoaiTK}','${Deposits.Fund}', '${Deposits.LoaiTaiTuc}'`)
+        console.log(rs)
         return rs
     },
     addWithdrawal: async (DepositID, Withdrawer) => {
@@ -10,11 +11,21 @@ module.exports = {
         return rs
     },
     getParams: async () => {
-        rs = await db.Query(`select * from Params`)
+        rs = await db.Query(`select * from THAMSO`)
         return rs
     },
-    getInterestType: async (Term = null, InterestRate = null) => {
-        var rs = await db.Query(`EXEC dbo.getInterestType ${Term}, ${InterestRate}`)
+    getLoaiTK: async (Term = null, InterestRate = null, ID = null) => {
+        // console.log(Term)
+        // console.log(InterestRate)
+        var rs = await db.Query(`EXEC dbo.getInterestType ${Term}, ${InterestRate}, ${ID}`)
+        // console.log(rs)
+        return rs;
+    },
+    getLoaiTT: async (Name) => {
+        var rs ;
+        if (Name == "Tái tục gốc") rs = 0;
+        else if (Name == "Tái tục toàn bộ") rs = 1;
+        else rs = 2;
         return rs;
     },
     getInterestTypeAll: async () => {
