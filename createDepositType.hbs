@@ -1,0 +1,31 @@
+<div class="main">
+            <div class="mainHeader">
+                <button type="button" class="sidebarButton">
+                    <i class="fa-solid fa-wallet fa-2xl"></i>
+                </button>
+                <p>Loại tiết kiệm</p>
+            </div>
+            <div class="wrapper">
+                <form action="#" id="form" method="POST">
+                    <div class="deposittypeIDBox box">
+                        <label for="deposittypeID">Mã loại tiết kiệm<div class="asterisk" style="color:red;">*</div>:</label> 
+                        <input type="text" id="deposittypeID" name="deposittypeID"
+                            placeholder="Nếu tồn tại mã loại tiết kiệm thì tự động cập nhật thông tin" maxlength="5">
+                    </div>
+                    <div class="deposittypetimeBox box">
+                        <label for="deposittypetime">Kỳ hạn<div class="asterisk" style="color:red;">*</div>:</label>
+                            <input type="number" id="deposittypetime" name="deposittypetime" placeholder="Nhập kỳ hạn (tháng)" step="1" min={{Params}}>
+                    </div>
+                    <div class="deposittypepercentBox box">
+                        <label for="deposittypepercent">Lãi suất<div class="asterisk" style="color:red;">*</div>:</label> 
+                        <input type="number" id="deposittypepercent" name="deposittypepercent" placeholder="Nhập lãi suất (%)" step="0.1" min={{Params}}>
+                    </div>
+                    
+                    <div id="btn_side">
+                        <input id="confirmBtn" type="submit" value="Tạo"></input>
+                        <input id="deleteBtn" type="submit" value="Xóa"></input>
+                        <a href="./home"><button id="gobackBtn" type="button">Quay lại</button></button></a>
+                    </div>
+                </form>
+            </div>
+        </form>
