@@ -10,6 +10,12 @@
     background-repeat: no-repeat;
 }
 
+.iconBalance {
+    background-image: url('../icon/savings.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .iconSend {
     background-image: url('../icon/send.svg');
     background-size: contain;

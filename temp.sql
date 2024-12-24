@@ -14,6 +14,8 @@ CREATE TABLE THAMSO(
 	NgayRutToiThieu INT NOT NULL
 )
 GO
+INSERT INTO THAMSO VALUES(1000000, 15)
+GO
 
 /*====================================================================
 LOAITK
@@ -186,7 +188,7 @@ BEGIN
 	-- Check if the customer or the given interest type is in the database 
 	SELECT MaPhieu, DAY(NgayGui) as Ngay, Month(NgayGui) as Thang, Year(NgayGui) as Nam, TienGui, TienLai, KyHanApDung, LaiSuatApDung, LoaiTaiTuc
 	FROM PHIEUGUI
-	WHERE MaKH = @CustomerID
+	WHERE MaKH = @CustomerID AND NgayDong IS NULL
 END
 GO
 DROP PROCEDURE dbo.getWithdraw
@@ -231,4 +233,44 @@ BEGIN
 	BEGIN
 		SELECT @Tong + @Tong * @LaiSuatApDung / 365 * DATEDIFF(day, @NgayGui, GETDATE()) as withdraw
 	END
+END
+GO
+DROP PROCEDURE dbo.CreateWithdraw
+GO
+
+CREATE PROCEDURE dbo.CreateWithdraw 
+				@MaPhieu INT
+AS
+BEGIN
+	SET NOCOUNT ON
+	DECLARE @NgayRutToiThieu INT = (
+		SELECT NgayRutToiThieu
+		FROM THAMSO
+	)
+	DECLARE @NgayGui SMALLDATETIME = (
+		SELECT NgayGui 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	DECLARE @MaKH NVARCHAR(20) = (
+		SELECT MaKH 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	IF (DATEDIFF(day, @NgayGui, GETDATE()) < @NgayRutToiThieu)
+		BEGIN
+			SELECT 1 as err
+		END 
+	ELSE 
+		BEGIN
+			UPDATE PHIEUGUI 
+			SET NgayDong = GETDATE()
+			WHERE MaPhieu = @MaPhieu
+			DECLARE @Withdraw Money
+			EXEC @Withdraw = dbo.getWithdraw @MaPhieu
+			UPDATE NGUOIDUNG 
+			SET SoDuNguoiDung = SoDuNguoiDung + @Withdraw
+			WHERE MaNguoiDung = @MaKH
+			SELECT 0 as err
+		END
 END
