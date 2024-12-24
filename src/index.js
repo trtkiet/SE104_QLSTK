@@ -11,6 +11,7 @@ depositR = require('./routes/deposit.r')
 withdrawR = require('./routes/withdraw.r')
 searchR = require('./routes/search.r')
 reportR = require('./routes/report.r')
+passbookR = require('./routes/passbook.r')
 // const passport = require('passport');
 const passport = require('./config/passportConfig')
 const Connection = require('tedious').Connection
@@ -65,6 +66,8 @@ app.use('/withdraw', withdrawR)
 app.use('/deposit', depositR)
 app.use('/search', searchR)
 app.use('/report', reportR)
+app.use('/passbook', passbookR)
+// app.use('/passbook', passbookR)
 app.get('/logout', (req, res) => {
     if (req.isAuthenticated()) {
         req.logout(err => {

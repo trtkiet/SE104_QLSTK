@@ -143,7 +143,7 @@ BEGIN
 END
 GO
 
-DROP PROCEDURE dbo.addDeposit
+/*DROP PROCEDURE dbo.addDeposit*/
 
 GO
 CREATE PROCEDURE dbo.addDeposit 
@@ -175,4 +175,60 @@ BEGIN
 END
 GO
 
-EXEC dbo.addDeposit 'trtkiet', 3, 100000, 2
+DROP PROCEDURE dbo.getAllDeposit
+
+GO
+CREATE PROCEDURE dbo.getAllDeposit 
+					@CustomerID NVARCHAR(20)
+AS
+BEGIN
+	SET NOCOUNT ON
+	-- Check if the customer or the given interest type is in the database 
+	SELECT MaPhieu, DAY(NgayGui) as Ngay, Month(NgayGui) as Thang, Year(NgayGui) as Nam, TienGui, TienLai, KyHanApDung, LaiSuatApDung, LoaiTaiTuc
+	FROM PHIEUGUI
+	WHERE MaKH = @CustomerID
+END
+GO
+DROP PROCEDURE dbo.getWithdraw
+GO
+CREATE PROCEDURE dbo.getWithdraw
+				@MaPhieu INT
+AS
+BEGIN
+	SET NOCOUNT ON
+	DECLARE
+			@NgayDaoHan SMALLDATETIME,
+			@NgayGui SMALLDATETIME,
+			@Tong MONEY,
+			@LaiSuatApDung FLOAT
+	SET @NgayDaoHan = (
+		SELECT NgayDaoHan 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	SET @NgayGui = (
+		SELECT NgayGui 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	SET @Tong = (
+		SELECT TienGui + TienLai 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	SET @LaiSuatApDung = (
+		SELECT LaiSuatApDung 
+		FROM PHIEUGUI 
+		WHERE MaPhieu = @MaPhieu
+	)
+	IF (DATEDIFF(day, @NgayDaoHan, @NgayGui) != DATEDIFF(day, GETDATE(), @NgayGui))
+	BEGIN
+		SELECT @Tong + @Tong * LaiSuat / 365 * DATEDIFF(day, @NgayGui, GETDATE()) as withdraw
+		FROM LOAITK
+		WHERE KyHan = 1
+	END
+	ELSE 
+	BEGIN
+		SELECT @Tong + @Tong * @LaiSuatApDung / 365 * DATEDIFF(day, @NgayGui, GETDATE()) as withdraw
+	END
+END

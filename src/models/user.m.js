@@ -4,7 +4,7 @@ const db = require('../config/connectDB')
 module.exports = {
     addUser: async user => {
         try {
-            a = await db.Query(`insert into NguoiDung (MaNguoiDung, MaNhom, MatKhau, TenNguoiDung, DinhDanh, DiaChi, SoDuNguoiDung) values ('${user.username}', N'${1}', N'${user.password}', N'${user.fullname}', '${user.id}', '${user.addr}', N'${0}')`)
+            a = await db.Query(`insert into NguoiDung (MaNguoiDung, MaNhom, MatKhau, TenNguoiDung, DinhDanh, DiaChi, SoDuNguoiDung) values ('${user.username}', N'${1}', N'${user.password}', N'${user.fullname}', '${user.id}', N'${user.addr}', N'${0}')`)
             return 0
         }
         catch (error) {

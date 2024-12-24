@@ -3,11 +3,11 @@ const db = require('../config/connectDB')
 module.exports = {
     addDeposits: async Deposits => {
         rs = await db.Query(`EXEC dbo.addDeposit '${Deposits.username}','${Deposits.MaLoaiTK}','${Deposits.Fund}', '${Deposits.LoaiTaiTuc}'`)
-        console.log(rs)
+        // console.log(rs)
         return rs
     },
-    addWithdrawal: async (DepositID, Withdrawer) => {
-        rs = await db.Query(`EXEC dbo.addWithdrawal '${DepositID}','${Withdrawer}'`)
+    CreateWithdraw: async (DepositID, Withdrawer) => {
+        rs = await db.Query(`EXEC dbo.CreateWithdraw '${DepositID}'`)
         return rs
     },
     getParams: async () => {
@@ -28,6 +28,10 @@ module.exports = {
         else rs = 2;
         return rs;
     },
+    getWithdraw: async (MaPhieu) => {
+        var rs = await db.Query(`EXEC dbo.getWithdraw '${MaPhieu}'`)
+        return rs;
+    },
     getInterestTypeAll: async () => {
         var rs = await db.Query(`select * from InterestTypes `)
         return rs;
@@ -37,7 +41,15 @@ module.exports = {
         return rs;
     },
     getDeposit: async (DepositID) => {
-        var rs = await db.Query(`exec dbo.getDeposit ${DepositID}  `)
+        var rs = await db.Query(`SELECT * FROM PHIEUGUI WHERE MaPhieu = ${DepositID}`)
+        return rs;
+    },
+    getAllDeposit: async (username) => {
+        var rs = await db.Query(`exec dbo.getAllDeposit ${username}  `)
+        for (const item of rs){
+            item.TienGui = item.TienGui.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+            item.TienLai = item.TienLai.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+        }
         return rs;
     },
     searchDeposit: async (citizenID, depositID, dateID) => {

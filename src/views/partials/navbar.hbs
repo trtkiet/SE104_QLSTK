@@ -8,33 +8,13 @@
     <nav>
         <ul>
             <li>
-                <a href="/deposit" {{#if active.deposit}} class="active" {{else}} class="inactive" {{/if}}>
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Gửi tiền</span>
+                <a href="/passbook" {{#if active.deposit}} class="active" {{else}} class="inactive" {{/if}}>
+                    <i class="fa-solid fa-align-justify"></i>
+                    <span>Danh sách phiếu gửi tiền</span>
                     {{!-- {{#if active.deposit}} <i class="iconActive"></i> {{/if}} --}}
                 </a>
             </li>
-            <li>
-                <a href="/withdraw" {{#if active.withdraw}} class="active" {{else}} class="inactive" {{/if}}>
-                    <i class="fa-solid fa-arrow-down"></i>
-                    <span>Rút tiền</span>
-                    {{!-- {{#if active.withdraw}} <i class="iconActive"></i> {{/if}} --}}
-                </a>
-            </li>
-            <li>
-                <a href="/search" {{#if active.search}} class="active" {{else}} class="inactive" {{/if}}>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <span>Tra cứu</span>
-                    {{!-- {{#if active.search}} <i class="iconActive"></i> {{/if}} --}}
-                </a>
-            </li>
-            <li>
-                <a href="/report" {{#if active.report}} class="active" {{else}} class="inactive" {{/if}}>
-                    <i class="fa-regular fa-file"></i>
-                    <span>Báo cáo</span>
-                    {{!-- {{#if active.report}} <i class="iconActive"></i> {{/if}} --}}
-                </a>
-            </li>
+            
         </ul>
     </nav>
     <div class="logoutButton">

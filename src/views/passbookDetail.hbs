@@ -1,0 +1,44 @@
+<div class="main">
+    <div class="mainHeader">
+        <button type="button" class="sidebarButton">
+            <i class="icon iconSidebar"></i>
+        </button>
+        <p>Rút tiền</p>
+    </div>
+    <div>
+        <form action="/passbook/detail/withdraw" id="form" method="POST">
+            <input type="number" name="passbookID" value="{{passbookID}}" hidden>
+            <div class = "passbookID box">
+                <label for="passbookID">Mã phiếu:</label>
+                <input type="text" id="passbookID" name="passbookID" value="{{passbookID}}"  maxlength="30" readonly>
+            </div>
+            <div class = "term box">
+                <label for="term">Kỳ hạn áp dụng:</label>
+                <input type="text" id="term" name="term" value="{{passbook.KyHanApDung}} ngày" maxlength="30" readonly>
+            </div>
+            <div class = "interest box">
+                <label for="interest">Lãi suất áp dụng:</label>
+                <input type="text" id="interest" name="interest" value="{{passbook.LaiSuatApDung}}% " maxlength="30" readonly>
+            </div>
+            <div class = "depositdate box">
+                <label for="depositdate">Ngày gửi:</label>
+                <input type="date" id="depositdate" name="depositdate" value ="{{passbook.NgayGui}}" readonly>
+            </div>
+            <div class = "expdateBox box">
+                <label for="expdate">Ngày đáo hạn:</label>
+                <input type="date" id="expdate" name="expdate" value ="{{passbook.NgayDaoHan}}" readonly>
+            </div>
+            <div class = "depositBox box">
+                <label for="deposit">Số dư trong sổ:</label>
+                <input type="money" id="deposit" name="deposit" step="1" min="100000" value="{{deposit}}"readonly>
+            </div>
+            <div class = "withdrawBox box">
+                <label for="withdraw">Tổng số tiền rút hiện tại:</label>
+                <input type="money" id="withdraw" name="withdraw" step="1" min="100000" value="{{withdraw}}"readonly>
+            </div>
+            <div id="btn_side">
+                <input id="confirmBtn" type="submit" value="Tất toán" formaction="/passbook/detail/withdraw"></input>
+                <a href="/passbook"><button id="gobackBtn" type="button"> Quay lại</button> </a>
+        </form>
+    </div>
+</div>

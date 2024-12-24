@@ -7,28 +7,6 @@ var idRegex = /([1-9]{1})+([0-9]{8,11})\b/;
 function checkinput() {
     // console.log('Checkkkkkkkkkkk')
     var type = $("input[name = 'type']:checked").val();
-    if ($("#citizenID").val().trim() == "") {
-        alert("CMND/CCCD không hợp lệ!");
-        return false;
-    }
-    if (
-        $("#citizenID").val().trim() != "" &&
-        idRegex.test($("#citizenID").val()) == false
-    ) {
-        alert("CMND/CCCD không hợp lệ!");
-        return false;
-    }
-    if (
-        $("#fullname").val().trim() == "" ||
-        nameRegex.test($("#fullname").val()) == false
-    ) {
-        alert("Tên không hợp lệ!");
-        return false;
-    }
-    if ($("#address").val().trim() == "") {
-        alert("Địa chỉ không hợp lệ!");
-        return false;
-    }
     if ($("#type").val().trim() == "") {
         alert("Loại tiết kiệm không hợp lệ!");
         return false;
@@ -100,7 +78,7 @@ document.getElementById("form").addEventListener('submit', function (event) {
                 .then((data) => {
                     alert(data.msg)
                     if (data.msg == "Gửi tiền thành công") {
-                        // window.open("/deposit/print", '_blank');
+                        window.location.replace("/passbook")
                     }
                 })
 

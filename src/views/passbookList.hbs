@@ -1,0 +1,31 @@
+<div class="main">
+    <div class="mainHeader">
+        <button type="button" class="sidebarButton">
+            <i class="icon iconSidebar"></i>
+        </button>
+        <p>Danh sách sổ tiết kiệm</p>
+    </div>
+    <div>
+        {{#if createable}}
+        <div class="addContainer">
+            <a href="/deposit" class="addBtn"><i class="icon iconAdd"></i></a>
+        </div>
+        {{/if}}
+        <div class="listContainer">
+            {{#each passbooks}}
+            {{!-- {{log this.TienGui}} --}}
+            <div class="savingbook">
+                <form action="/passbook/detail" method="POST">
+                    <input type="number" name="passbookID" value="{{this.MaPhieu}}" hidden>
+                </form>
+                <i class="icon iconSum"></i>
+                <p>Ngày gửi: Ngày {{this.Ngay}} tháng {{this.Thang}} năm {{this.Nam}}</p>
+                <p>Kỳ hạn: {{this.KyHanApDung}} ngày - Lãi suất: {{this.LaiSuatApDung}}%</p>
+                <p>Loại tái tục: {{this.LoaiTaiTuc}}</p>
+                <h2>Tiền gửi: {{this.TienGui}}</h2>
+                <h3 >Tiền lãi: {{this.TienLai}}</h3>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -5,7 +5,6 @@ module.exports = {
     database: 'QLSTK',
     options: {
         truesconnection: true,
-        instancename: 'SQLEXPRESS',
         trustServerCertificate: true,
     },
     port: 1433

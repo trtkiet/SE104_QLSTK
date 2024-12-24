@@ -11,6 +11,72 @@ module.exports = {
     //     else
     //         res.json({ status: true, data: customer[0] })
     // },
+    passbookListGet: async (req, res) => {
+        const passbooks = await passbookM.getAllDeposit(req.session.passport.user)
+        createable = true;
+        for (i = 0; i < passbooks.length; i++) {
+            if (passbooks[i].LoaiTaiTuc == 0) {
+                passbooks[i].LoaiTaiTuc = "Tái tục gốc"
+            }
+            else if (passbooks[i].LoaiTaiTuc == 1) {
+                passbooks[i].LoaiTaiTuc = "Tái tục toàn bộ"
+            }
+            else if (passbooks[i].LoaiTaiTuc == 2) {
+                passbooks[i].LoaiTaiTuc = "Không tái tục"
+            }
+            passbooks[i].LaiSuatApDung *= 100
+        }
+        res.render('passbookList', {
+            // active: {passbook: true},
+            layout: "working",
+            title: "Danh sách sổ tiết kiệm",
+            style: ["form.css", "passbookList.css"],
+            script: "dashboard.js",
+            createable: createable,
+            passbooks: passbooks,
+        })
+    },
+    detailGet : async (req, res) => {
+        // console.log(req.body)
+        const temp = await passbookM.getDeposit(req.body.passbookID)
+        const passbook = temp[0]
+        var withdraw = await passbookM.getWithdraw(passbook.MaPhieu)
+        withdraw = withdraw[0].withdraw
+        // console.log(withdraw)
+        var day = ("0" + passbook.NgayDaoHan.getDate()).slice(-2);
+        var month = ("0" + (passbook.NgayDaoHan.getMonth() + 1)).slice(-2);
+        passbook.NgayDaoHan = passbook.NgayDaoHan.getFullYear()+"-"+(month)+"-"+(day)
+        day = ("0" + passbook.NgayGui.getDate()).slice(-2);
+        month = ("0" + (passbook.NgayGui.getMonth() + 1)).slice(-2);
+        passbook.NgayGui = passbook.NgayGui.getFullYear()+"-"+(month)+"-"+(day)
+        passbook.LaiSuatApDung *= 100
+        deposit = passbook.TienGui + passbook.TienLai
+        deposit = deposit.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+        withdraw = withdraw.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+        res.render('passbookDetail', {    
+            layout: "working",
+            title: "Rút tiền",
+            style: ["form.css", "passbookList.css"],
+            script: "withdraw.js",
+            passbookID: req.body.passbookID,
+            passbook: passbook,
+            deposit: deposit,
+            withdraw: withdraw,
+        })
+    },
+    detailPost: async (req, res) => {
+        console.log(req.body)
+        var err = await passbookM.CreateWithdraw(req.body.passbookID)
+        err = err[0].err
+        console.log(err)
+        if (err == 1){
+            res.json({msg: "Rút tiền không thành công do chưa tới ngày rút tối thiểu"})
+        }
+        else {
+            res.json({msg: "Rút tiền thành công"})
+        }
+    },
+
     createDepositGet: async (req, res) => {
         const username = req.session.passport.user
         const LoaiTK = await passbookM.getLoaiTK()

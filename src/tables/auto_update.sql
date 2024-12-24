@@ -43,4 +43,28 @@ WHERE Withdrawer IS NULL
 		    WHERE D.DepositID = T.DepositID)
 
 
+GO
+UPDATE NGUOIDUNG 
+SET SoDuNguoiDung = SoDuNguoiDung + (
+	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung), 0)
+	FROM PHIEUGUI 
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 1 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+)
 
+GO
+UPDATE PHIEUGUI 
+SET TienLai = TienLai + (TienGui + TienLai) * LaiSuatApDung / 365 * KyHanApDung
+WHERE LoaiTaiTuc = 2 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+
+GO
+UPDATE NGUOIDUNG 
+SET SoDuNguoiDung = SoDuNguoiDung + (
+	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung) + SUM(TienGui), 0)
+	FROM PHIEUGUI 
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 3 AND NgayDong = NULL AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+)
+
+GO
+UPDATE PHIEUGUI
+SET TienLai = 0, NgayDong = GETDATE()
+WHERE LoaiTaiTuc = 3 AND NgayDong = NULL AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0

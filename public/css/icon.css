@@ -4,6 +4,11 @@
     background-repeat: no-repeat;
 }
 
+.iconAdd {
+    background-image: url('../icon/add.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
 
 .iconSend {
     background-image: url('../icon/send.svg');
