@@ -2,7 +2,7 @@ const passport = require('../config/passportConfig')
 module.exports = {
     loginGet: (req, res) => {
         if (req.isAuthenticated()) {
-            return res.redirect('/home');
+            return res.redirect('/homeStaff');
         }
         res.render('login', {
             title: "Đăng nhập",

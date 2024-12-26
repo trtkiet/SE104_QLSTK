@@ -69,30 +69,20 @@ function getJSBTN() {
       postData("/search/detail", info)
         .then((data) => {
           depositInfo = data.depositInfo
-          document.querySelector("#myModal #customerID").value = depositInfo.CustomerID
-          document.querySelector("#myModal #citizenID").value = depositInfo.CitizenID
-          document.querySelector("#myModal #nameID").value = depositInfo.CustomerName
-          document.querySelector("#myModal #phoneID").value = depositInfo.PhoneNumber
-          document.querySelector("#myModal #addressID").value = depositInfo.CustomerAddress
+          document.querySelector("#myModal #customerID").value = depositInfo.MaKH
+          document.querySelector("#myModal #citizenID").value = depositInfo.DinhDanh
+          document.querySelector("#myModal #nameID").value = depositInfo.TenNguoiDung
+          document.querySelector("#myModal #addressID").value = depositInfo.DiaChi
 
-          document.querySelector("#myModal #depositID").value = depositInfo.DepositID
-          document.querySelector("#myModal #moneyID").value = formatCurrency(depositInfo.Fund)
-          document.querySelector("#myModal #deadlineID").value = depositInfo.Term
-          document.querySelector("#myModal #rateID").value = depositInfo.InterestRate
-          document.querySelector("#myModal #benefitID").value = formatCurrency(depositInfo.TotalChanges)
-          document.querySelector("#myModal #remainderID").value = formatCurrency(depositInfo.CurrentBalance)
-          document.querySelector("#myModal #openDay").value = depositInfo.OpenedDate.replace('T', " ").replace('.000Z', "")
-          document.querySelector("#myModal #noDepositDays").value = depositInfo.NoDaysDeposited
-          if (depositInfo.Withdrawer == null) {
-            document.querySelector("#myModal #getID").setAttribute('readonly', true)
-            document.querySelector("#myModal #getID").value = null
-          }
-          else {
-            document.querySelector("#myModal #getID").removeAttribute('readonly')
-            document.querySelector("#myModal #getID").value = depositInfo.Withdrawer
-          }
+          document.querySelector("#myModal #depositID").value = depositInfo.MaPhieu
+          document.querySelector("#myModal #moneyID").value = formatCurrency(depositInfo.TienGui)
+          document.querySelector("#myModal #deadlineID").value = depositInfo.KyHanApDung
+          document.querySelector("#myModal #rateID").value = depositInfo.LaiSuatApDung * 100 + '%'
+          document.querySelector("#myModal #benefitID").value = formatCurrency(depositInfo.TienLai)
+          document.querySelector("#myModal #remainderID").value = formatCurrency(depositInfo.TienGui + depositInfo.TienLai)
+          document.querySelector("#myModal #openDay").value = depositInfo.NgayGui.replace('T', " ").replace('.000Z', "")
 
-          document.querySelector("#myModal #dateID").value = (depositInfo.WithdrawalDate === null) ? null : depositInfo.WithdrawalDate.replace('T', " ").replace('.000Z', "")
+          document.querySelector("#myModal #dateID").value = (depositInfo.NgayRut == null) ? 'Chưa rút' : depositInfo.WithdrawalDate.replace('T', " ").replace('.000Z', "")
         }
         )
     };
@@ -136,11 +126,11 @@ formSearch.addEventListener('submit', function (event) {
         //   document.getElementById("hide_table").classList.add("hide_table")
         for (i in datas.detailDeposit) {
           var newRow = '<tr>' +
-            `<td>${datas.detailDeposit[i].DepositID}</th>` +
-            `<td>${datas.detailDeposit[i].CustomerID}</th>` +
-            `<td>${datas.detailDeposit[i].CustomerName}</th>` +
-            `<td>${formatCurrency(datas.detailDeposit[i].CurrentBalance)}</th>` +
-            `<td>${datas.detailDeposit[i].OpenedDate.replace('T', " ").replace('.000Z', "")}</th>` +
+            `<td>${datas.detailDeposit[i].MaPhieu}</th>` +
+            `<td>${datas.detailDeposit[i].MaKH}</th>` +
+            `<td>${datas.detailDeposit[i].TenNguoiDung}</th>` +
+            `<td>${formatCurrency(datas.detailDeposit[i].TienGui + datas.detailDeposit[i].TienLai)}</th>` +
+            `<td>${datas.detailDeposit[i].NgayGui.replace('T', " ").replace('.000Z', "")}</th>` +
             '<td><button class="myBtn">Xem</button></td>' +
             '</tr>';
           TableBody.insertAdjacentHTML('beforeend', newRow);

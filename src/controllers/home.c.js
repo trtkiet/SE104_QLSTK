@@ -8,34 +8,40 @@ module.exports = {
 
         var currentDate = new Date()
         var Params = 0
-        const accountType = await userM.getAccountTypeByUsername(req.session.passport.user)
-        const isAdmin = (accountType[0].AccountTypeName == "Admin" ? true : false)
-        if (!isAdmin) {
-            var InterestTypeadad = await passbookM.getLoaiTK()
+        const user = await userM.getAccountByUsername(req.session.passport.user)
+        const sumDeposit = await passbookM.getSumDeposit(req.session.passport.user)
+        var balance = await passbookM.getBalance(req.session.passport.user)
+        balance = balance[0].SoDuNguoiDung
+        balance = balance.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+        console.log(balance)
+        var type = await passbookM.getInterestTypeAll()
+        for (i = 0; i < type.length; i++){
+            type[i].LaiSuat *= 100
         }
-        else {
-            var InterestTypeadad = await passbookM.getInterestTypeAll()
-            Params = await passbookM.getParams()
-        }
-        // console.log(InterestType);
-        const sumDeposit = await passbookM.getSumDeposit()
-        const monthReport = await passbookM.summaryMonthReport(currentDate.getMonth() + 1, currentDate.getFullYear())
-
-        req.session.accountType = accountType[0].AccountTypeName
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('home', {
             layout: "working",
             title: "Trang chủ",
             style: ["home.css", "table.css", "form.css"],
             script: "home.js",
-            form: true,
-            InterestTypeadad: InterestTypeadad,
+            // form: true,
+            // InterestTypeadad: InterestTypeadad,
             sumDeposit: sumDeposit[0].Total == null ? 0 : sumDeposit[0].Total,
-            Monthwithdraw: monthReport[0].MonthCost == null ? 0 : monthReport[0].MonthCost,
-            MonthDeposit: monthReport[0].MonthRevenue == null ? 0 : monthReport[0].MonthRevenue,
-            month: currentDate.getMonth() + 1,
-            year: currentDate.getFullYear(),
-            hideForm: isAdmin,
-            Params: (Params == 0) ? 0 : Params[0].MinimumDeposit,
+            balance: balance,
+            hideForm: false,
+            type: type,
+            isStaff: isStaff,
+            isCustomer: isCustomer,
+            // Monthwithdraw: monthReport[0].MonthCost == null ? 0 : monthReport[0].MonthCost,
+            // MonthDeposit: monthReport[0].MonthRevenue == null ? 0 : monthReport[0].MonthRevenue,
+            // month: currentDate.getMonth() + 1,
+            // year: currentDate.getFullYear(),
+            // hideForm: isAdmin,
+            // Params: (Params == 0) ? 0 : Params[0].MinimumDeposit,
         })
     },
     updateparamPost: async (req, res) => {

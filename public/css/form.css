@@ -3,6 +3,7 @@
     background-image: linear-gradient(to bottom, #FFFFFF, #aaeaff);
     min-width: calc(100% - 225px);
     min-height: 100%;
+    overflow-y: auto;
 }
 
 .main .icon {

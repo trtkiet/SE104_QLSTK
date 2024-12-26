@@ -24,11 +24,11 @@ document.getElementById('form').addEventListener('submit', function (event) {
                     alert("Nhập ngày nhỏ hơn hoặc bằng ngày hiện tại")
                     return
                 }
-                total = data.detailReport[0][0]
-                totalInterestTypes = data.detailReport[1]
-                document.getElementById('get').value = formatCurrency(total.TotalRevenue)
-                document.getElementById('pay').value = formatCurrency(total.TotalCost)
-                document.getElementById('benefit').value = formatCurrency(total.TotalProfit)
+                total = data.sumReport[0]
+                totalInterestTypes = data.detailReport[0]
+                document.getElementById('get').value = formatCurrency(total.TongThu)
+                document.getElementById('pay').value = formatCurrency(total.TongChi)
+                document.getElementById('benefit').value = formatCurrency(total.ChenhLech)
 
                 var TableBody = document.querySelector('#tbody');
                 while (TableBody.firstChild) {
@@ -41,10 +41,10 @@ document.getElementById('form').addEventListener('submit', function (event) {
                 for (i in totalInterestTypes) {
                     var newRow = '<tr>' +
                         `<td>${i}</th>` +
-                        `<td>${totalInterestTypes[i].InterestTypeName}</th>` +
-                        `<td>${formatCurrency(totalInterestTypes[i].Revenue)}</th>` +
-                        `<td>${formatCurrency(totalInterestTypes[i].Cost)}</th>` +
-                        `<td>${formatCurrency(totalInterestTypes[i].Profit)}</th>` +
+                        `<td>${totalInterestTypes[i].MaLoaiTK}</th>` +
+                        `<td>${formatCurrency(totalInterestTypes[i].TongThu)}</th>` +
+                        `<td>${formatCurrency(totalInterestTypes[i].TongChi)}</th>` +
+                        `<td>${formatCurrency(totalInterestTypes[i].ChenhLechDS)}</th>` +
                         '</tr>';
                     TableBody.insertAdjacentHTML('beforeend', newRow);
                 }

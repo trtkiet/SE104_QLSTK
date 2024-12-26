@@ -33,11 +33,12 @@ module.exports = {
         return rs;
     },
     getInterestTypeAll: async () => {
-        var rs = await db.Query(`select * from InterestTypes `)
+        var rs = await db.Query(`select * from LOAITK `)
         return rs;
     },
-    getSumDeposit: async () => {
-        var rs = await db.Query(`EXEC  dbo.sumActiveDeposit `)
+    getSumDeposit: async (MaKH) => {
+        var rs = await db.Query(`SELECT SUM(TienGui) as Total FROM PHIEUGUI WHERE MaKH = '${MaKH}' AND NgayDong IS NULL`)
+        // console.log(rs)
         return rs;
     },
     getDeposit: async (DepositID) => {
@@ -52,15 +53,22 @@ module.exports = {
         }
         return rs;
     },
-    searchDeposit: async (citizenID, depositID, dateID) => {
-        if (dateID !== null)
-            var rs = await db.Query(`EXEC dbo.searchDeposit ${depositID},${citizenID},'${dateID}' `)
-        else
-            var rs = await db.Query(`EXEC dbo.searchDeposit ${depositID},${citizenID},${dateID} `)
+    searchDeposit: async (citizenID, depositID, dateID, username) => {
+        var rs;
+        if (citizenID != null) citizenID = `'${citizenID}'`
+        if (dateID != null) dateID = `'${dateID}'`
+        if (username != null) username = `'${username}'`
+        console.log(citizenID, depositID, dateID, username)
+        rs = await db.Query(`exec dbo.searchDeposit ${citizenID},${depositID},${dateID},${username}`);
         return rs;
     },
     makeReportByDay: async Day => {
         var rs = await db.QueryALL(`exec dbo.makeReportByDay '${Day}'`)
+        // console.log(`'${Day}'`)
+        return rs
+    },
+    sumReportByDay: async Day => {
+        var rs = await db.Query(`SELECT SUM(TongThu) as TongThu, SUM(TongChi) as TongChi, SUM(ChenhLechDS) as ChenhLech FROM BAOCAODOANHSO WHERE NgayDS = '${Day}'`)
         return rs
     },
     summaryMonthReport: async (Month, Year) => {
@@ -99,6 +107,16 @@ module.exports = {
 
         var rs = await db.Query(`exec dbo.updateInterestType ${InterestTypeID},${MinimumTimeToWithdrawal}`)
         return rs
+    },
+    getBalance: async (username) => {
+        var rs = await db.Query(`select SoDuNguoiDung from NGUOIDUNG where MaNguoiDung = '${username}'`)
+        // console.log(rs[0].SoDuNguoiDung)
+        return rs;
+    },
+    getUserType: async (username) => {
+        var rs = await db.Query(`select MaNhom from NGUOIDUNG where MaNguoiDung = '${username}'`)
+        // console.log(rs)
+        return rs[0].MaNhom;
     }
 }
 

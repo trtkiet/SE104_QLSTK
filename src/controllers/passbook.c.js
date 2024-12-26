@@ -26,6 +26,11 @@ module.exports = {
             }
             passbooks[i].LaiSuatApDung *= 100
         }
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('passbookList', {
             // active: {passbook: true},
             layout: "working",
@@ -34,6 +39,8 @@ module.exports = {
             script: "dashboard.js",
             createable: createable,
             passbooks: passbooks,
+            isStaff: isStaff,
+            isCustomer: isCustomer
         })
     },
     detailGet : async (req, res) => {
@@ -53,6 +60,11 @@ module.exports = {
         deposit = passbook.TienGui + passbook.TienLai
         deposit = deposit.toLocaleString('vi', {style : 'currency', currency : 'VND'})
         withdraw = withdraw.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('passbookDetail', {    
             layout: "working",
             title: "Rút tiền",
@@ -62,6 +74,8 @@ module.exports = {
             passbook: passbook,
             deposit: deposit,
             withdraw: withdraw,
+            isCustomer: isCustomer,
+            isStaff: isStaff,
         })
     },
     detailPost: async (req, res) => {
@@ -83,6 +97,11 @@ module.exports = {
         const user = await userM.getAccountByUsername(username)
         // console.log(user)
         const Params = await passbookM.getParams()
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('createDeposit', {
             active: { deposit: true },
             layout: "working",
@@ -95,6 +114,8 @@ module.exports = {
             DiaChi: user[0].DiaChi,
             // username: Username,
             LoaiTK: LoaiTK,
+            isCustomer: isCustomer,
+            isStaff: isStaff
             // InterestType: InterestType,
             // MinMoneyDeposit: null,
             // Params: (Params.length == 0) ? 0 : Params[0].MinimumDeposit
@@ -183,6 +204,11 @@ module.exports = {
         })
     },
     passbookGet: async (req, res) => {
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('search', {
             active: { search: true },
             layout: "working",
@@ -190,20 +216,27 @@ module.exports = {
             style: ["modal.css", "form.css", "table.css"],
             script: "search.js",
             form: true,
-            detailDeposit: false
+            detailDeposit: false,
+            isCustomer: isCustomer,
+            isStaff: isStaff
         })
     },
     passbookPost: async (req, res) => {
         const citizenID = (req.body.citizenID == "") ? null : req.body.citizenID
-        const depositID = (req.body.depositID == "") ? null : req.body.depositID
+        const depositID = (req.body.depositID == "") ? 0 : req.body.depositID
         const dateID = (req.body.dateID == "") ? null : req.body.dateID
-        detailDeposit = await passbookM.searchDeposit(citizenID, depositID, dateID)
+        var username = req.session.passport.user;
+        // console.log(username)
+        var type = await passbookM.getUserType(username)
+        if (type != 1) username = null
+        detailDeposit = await passbookM.searchDeposit(citizenID, depositID, dateID, username)
+        console.log(detailDeposit)
         res.json({
             detailDeposit: detailDeposit
         })
     },
     detailsPost: async (req, res) => {
-        depositInfo = await passbookM.getDeposit(req.body.DepositID)
+        depositInfo = await passbookM.searchDeposit(null, req.body.DepositID, null, null)
 
         res.json({
             depositInfo: depositInfo[0],
@@ -239,20 +272,30 @@ module.exports = {
             res.json({ status: true, mess: "Xóa phiếu thành công" })
         }
     },
-    reportGet: (req, res) => {
+    reportGet: async (req, res) => { 
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
         res.render('report', {
             active: { report: true },
             layout: "working",
-            title: "Tra Cứu",
+            title: "Báo Cáo",
             style: ["report.css", "form.css", "table.css"],
             script: "report.js",
             form: true,
+            isStaff: isStaff,
+            isCustomer: isCustomer
         })
     },
     reportPost: async (req, res) => {
         const detailReport = await passbookM.makeReportByDay(req.body.dateID)
+        const sumReport = await passbookM.sumReportByDay(req.body.dateID)
+        console.log(detailReport)
         res.json({
             detailReport: (detailReport === "err") ? false : detailReport,
+            sumReport: sumReport
         })
     },
 

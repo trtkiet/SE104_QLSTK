@@ -113,13 +113,13 @@ BAOCAODOANHSO
 ======================================================================*/
 CREATE TABLE BAOCAODOANHSO(
 	-- Keys
-	MaDS INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	MaLoaiTK INT NOT NULL FOREIGN KEY REFERENCES LOAITK(MaLoaiTK),
-	-- Non-keys
 	NgayDS SMALLDATETIME NOT NULL,
+	-- Non-keys
 	TongThu MONEY NOT NULL,
 	TongChi MONEY NOT NULL,
 	ChenhLechDS MONEY NOT NULL,
+	CONSTRAINT PK_BaoCaoDS PRIMARY KEY(MaLoaiTK, NgayDS)
 )
 GO
 
@@ -145,7 +145,7 @@ BEGIN
 END
 GO
 
-/*DROP PROCEDURE dbo.addDeposit*/
+DROP PROCEDURE dbo.addDeposit
 
 GO
 CREATE PROCEDURE dbo.addDeposit 
@@ -172,7 +172,7 @@ BEGIN
 	WHERE MaLoaiTK = @InterestTypeID
 	SELECT @NgayDaoHan = GETDATE() + @KyHanApDung
 	INSERT INTO PHIEUGUI 
-	VALUES (@InterestTypeID, @CustomerID, @KyHanApDung, @LaiSuatApDung, @NgayDaoHan, @LoaiTT, GETDATE(), @Fund, 0, NULL);
+	VALUES (@InterestTypeID, @CustomerID, @KyHanApDung, @LaiSuatApDung, @NgayDaoHan, @LoaiTT, (select DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0)), @Fund, 0, NULL);
 	SELECT 1 as err
 END
 GO
@@ -274,3 +274,55 @@ BEGIN
 			SELECT 0 as err
 		END
 END
+GO
+DROP PROCEDURE dbo.searchDeposit
+GO
+CREATE PROCEDURE dbo.searchDeposit
+				@DinhDanh NVARCHAR(40) = NULL,
+				@MaPhieu INT = NULL, 
+				@NgayGui SMALLDATETIME = NULL,
+				@MaNguoiDung NVARCHAR(20) = NULL
+AS 
+BEGIN
+	SET NOCOUNT ON
+	SELECT *
+	FROM PHIEUGUI INNER JOIN NGUOIDUNG ON MaKH = MaNguoiDung
+	WHERE (@DinhDanh IS NULL OR DinhDanh = @DinhDanh) AND (@MaPhieu = 0 OR MaPhieu = @MaPhieu) AND (@NgayGui IS NULL OR NgayGui = @NgayGui) AND (@MaNguoiDung IS NULL OR MaNguoiDung = @MaNguoiDung)
+END
+GO
+DROP PROCEDURE dbo.makeReportByDay
+GO
+CREATE PROCEDURE dbo.makeReportByDay
+    @day SMALLDATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @a TABLE (MaLoaiTK INT, NgayDS SMALLDATETIME, TongThu MONEY);
+
+    INSERT INTO @a
+    SELECT MaLoaiTK, NgayGui as NgayDS, SUM(TienGui) as TongThu
+    FROM PHIEUGUI
+    WHERE NgayGui = @day
+    GROUP BY MaLoaiTK, NgayGui;
+
+    DECLARE @b TABLE (MaLoaiTK INT, NgayDS SMALLDATETIME, TongChi MONEY);
+
+    INSERT INTO @b
+    SELECT MaLoaiTK, NgayDong as NgayDS, SUM(TienGui) as TongChi
+    FROM PHIEUGUI
+    WHERE NgayDong = @day
+    GROUP BY MaLoaiTK, NgayDong;
+
+	DELETE FROM BAOCAODOANHSO WHERE NgayDS = @day
+
+	INSERT INTO BAOCAODOANHSO
+    SELECT a.MaLoaiTK, a.NgayDS, ISNULL(TongThu, 0), ISNULL(TongChi, 0), ISNULL(TongThu - TongChi, 0)
+    FROM @a as a FULL OUTER JOIN @b as b ON a.MaLoaiTK = b.MaLoaiTK AND a.NgayDS = b.NgayDS;
+
+    SELECT *
+    FROM BAOCAODOANHSO
+    WHERE NgayDS = @day;
+
+END
+

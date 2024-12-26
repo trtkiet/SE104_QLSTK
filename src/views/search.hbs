@@ -13,7 +13,7 @@
             </div>
             <div class="depositIDBox box">
                 <label for="depositID">Mã phiếu gửi:</label>
-                <input type="text" id="depositID" name="depositID" maxlength="80">
+                <input type="number" id="depositID" name="depositID">
             </div>
             <div class="dateBox box">
                 <label for="dateID">Ngày mở:</label>
@@ -31,7 +31,7 @@
                 <th>Mã phiếu gửi</th>
                 <th>Mã khách hàng</th>
                 <th>Tên khách hàng</th>
-                <th>Số dư hiện tại</th>
+                <th>Số tiền gửi</th>
                 <th>Ngày mở</th>
                 <th>Chi tiết</th>
             </tr>
@@ -59,19 +59,15 @@
                     </div>
                     <div class="nameID smallbox">
                         <label for="nameID">Họ và tên:</label>
-                        <input type="text" id="nameID" name="nameID" maxlength="80">
+                        <input type="text" id="nameID" name="nameID" maxlength="80" readonly>
                     </div>
                     <div class="citizenID smallbox">
                         <label for="citizenID">CCCD/CMND:</label>
-                        <input type="text" id="citizenID" name="citizenID" maxlength="12">
-                    </div>
-                    <div class="phoneID smallbox">
-                        <label for="phoneID">Điện thoại:</label>
-                        <input type="text" id="phoneID" name="phoneID" maxlength="11">
+                        <input type="text" id="citizenID" name="citizenID" maxlength="12" readonly>
                     </div>
                     <div class="addressID smallbox">
                         <label for="addressID">Địa chỉ:</label>
-                        <input type="text" id="addressID" name="addressID" maxlength="80">
+                        <input type="text" id="addressID" name="addressID" maxlength="80" readonly>
                     </div>
                 </div>
                 <div class="depositHeader">
@@ -92,7 +88,7 @@
                     </div>
                     <div class="rateID smallbox">
                         <label for="rateID">Lãi suất:</label>
-                        <input type="number" id="rateID" name="rateID" readonly>
+                        <input type="text" id="rateID" name="rateID" readonly>
                     </div>
                     <div class="benefitID smallbox">
                         <label for="benefitID">Tiền lãi:</label>
@@ -102,27 +98,21 @@
                         <label for="remainderID">Số dư hiện tại:</label>
                         <input type="money" id="remainderID" name="remainderID" readonly>
                     </div>
-                    <div class="noDepositDays smallbox">
-                        <label for="noDepositDays">Số ngày gửi:</label>
-                        <input type="number" id="noDepositDays" name="noDepositDays" readonly>
-                    </div>
                     <div class="openDay smallbox">
                         <label for="openDay">Ngày gửi:</label>
                         <input id="openDay" name="openDay" readonly>
-                    </div>
-                    <div class="getID smallbox">
-                        <label for="getID">Người rút:</label>
-                        <input type="text" id="getID" name="getID">
                     </div>
                     <div class="dateID smallbox">
                         <label for="dateID">Ngày rút:</label>
                         <input id="dateID" name="dateID" readonly>
                     </div>
                 </div>
+                {{#if isAdmin}}
                 <div id="btn_side">
                     <button id="changeBtn" type="submit" value="Sửa">Sửa</button>
                     <button id="deleteBtn" type="submit" value="Xóa">Xóa</button>
                 </div>
+                {{/if}}
             </form>
         </div>
     </div>
