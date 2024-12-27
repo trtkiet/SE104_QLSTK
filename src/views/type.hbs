@@ -1,0 +1,75 @@
+<div class="main">
+    <div class="mainHeader">
+        <button type="button" class="sidebarButton">
+            <i class="fa-solid fa-wallet fa-2xl"></i>
+        </button>
+        <p>Thay đổi loại tiết kiệm</p>
+    </div>
+    <div class id="hide_table">
+        <table id="table" style="width: 80%; margin-left: auto; margin-right: auto; ">
+            <tr>
+                <th>Mã loại tiết kiệm</th>
+                <th>Kỳ hạn</th>
+                <th>Lãi suất</th>
+                <th>Thay đổi</th>
+            </tr>
+            <tbody id="tbody">
+                {{#each type}}
+                <tr>
+                    <td>{{this.MaLoaiTK}}</td>
+                    <td>{{this.KyHan}}</td>
+                    <td>{{this.LaiSuat }}</td>
+                    <td><button class="myBtn">Sửa</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+
+
+        </table>
+    </div>
+    <div class="wrapper">
+        <form action="#" id="form" method="POST">
+            <div class="KyHanBox box">
+                <label for="KyHan">Kỳ hạn:</label>
+                <input type="number" id="KyHan" name="KyHan">
+            </div>
+            <div class="LaiSuatBox box">
+                <label for="LaiSuat">Lãi suất:</label>
+                <input type="number" id="LaiSuat" step = "0.01" name="LaiSuat">
+            </div>
+            <div id="btn_side">
+                <button id="confirmBtn" type="submit" value="Tìm">Tạo</button>
+                <a href="./home"><button id="gobackBtn" type="button">Quay lại</button></button></a>
+            </div>
+        </form>
+    </div>
+    
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="subHeader">
+                <span class="close">&times;</span>
+                <p>Chi tiết loại tiết kiệm</p>
+            </div>
+            <form action="#" id="forminfo" method="POST">
+                <div class="depositBody">
+                    <div class="interestID smallbox">
+                        <label for="interestID">Mã loại tiết kiệm:</label>
+                        <input type="int" id="interestID" name="interestID" readonly>
+                    </div>
+                    <div class="deadlineID smallbox">
+                        <label for="deadlineID">Kỳ hạn(Ngày):</label>
+                        <input type="number" id="deadlineID" name="deadlineID" >
+                    </div>
+                    <div class="rateID smallbox">
+                        <label for="rateID">Lãi suất(%):</label>
+                        <input type="number" step="0.01" id="rateID" name="rateID" >
+                    </div>
+                </div>
+                <div id="btn_side">
+                    <button id="changeBtn" type="submit" value="Sửa">Sửa</button>
+                    <button id="deleteBtn" type="submit" value="Xóa">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

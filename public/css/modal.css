@@ -23,8 +23,8 @@
 
 /* Modal Content */
 .main .modal-content {
-    background-color: #e7f9ff;
-    background-image: radial-gradient(circle, #ffffff, #e7f9ff, #95d2ec);
+    background-color: #ffffff;
+    /* background-image: radial-gradient(circle, #ffffff, #e7f9ff, #95d2ec); */
     margin: auto;
     margin-top: 15px;
     padding: 20px;
@@ -57,7 +57,7 @@
     align-items: center;
     color: #ffffff;
     font-weight: bold;
-    background-color: #d41317;
+    background-color: black;
 }
 
 .main .modal-content .subHeader p {
@@ -152,7 +152,7 @@
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
-    background: linear-gradient(65.44deg, #d01b1b 0%, #ff4242 94.64%);
+    background: black;
     border: 0px;
     border-radius: 20px;
     margin: 0px 10px;

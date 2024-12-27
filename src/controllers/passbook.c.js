@@ -298,6 +298,63 @@ module.exports = {
             sumReport: sumReport
         })
     },
-
-
+    changeGet: async (req, res) => {
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
+        const Param = await passbookM.getParams()
+        res.render('change', {
+            layout: "working",
+            title: "Thay đổi tham số",
+            style: ["search.css", "form.css", "table.css", "modal.css"],
+            script: "change.js",
+            form: true,
+            isStaff: isStaff,
+            isCustomer: isCustomer,
+            Param: Param[0]
+        })
+    },
+    changePost: async (req, res) => {
+        console.log(req.body)
+        passbookM.updateParam(req.body.minDay, req.body.minDeposit);
+    },
+    typeGet: async (req, res) => {
+        const type = await passbookM.getInterestTypeAll()
+        const accountType = await passbookM.getUserType(req.session.passport.user)
+        var isStaff = false;
+        if (accountType == 2) isStaff = true
+        var isCustomer = false;
+        if (accountType == 1) isCustomer = true
+        for (i in type) type[i].LaiSuat = type[i].LaiSuat * 100
+        res.render('type', {
+            active: { search: true },
+            layout: "working",
+            title: "Thay đổi loại tiết kiệm",
+            style: ["modal.css", "form.css", "table.css"],
+            script: "type.js",
+            form: true,
+            detailDeposit: false,
+            isCustomer: isCustomer,
+            isStaff: isStaff,
+            type: type
+        })
+    },
+    typeDetailPost: async (req, res) => {
+        const type = await passbookM.getInterestType(req.body.MaLoaiTK)
+        res.json({
+            type: type[0]
+        })
+    },
+    typeDetailDeletePost: async (req, res) => {
+        passbookM.deleteInterestType(req.body.MaLoaiTK)
+    },
+    typeDetailUpdatePost: async (req, res) => {
+        passbookM.updateInterestType(req.body.MaLoaiTK, req.body.KyHan, req.body.LaiSuat)
+    },
+    typePost: async (req, res) => {
+        // console.log(req.body)
+        passbookM.addInterestType(req.body.LaiSuat, req.body.KyHan)
+    },
 }

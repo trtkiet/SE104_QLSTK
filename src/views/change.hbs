@@ -1,0 +1,25 @@
+
+<div class="main">
+    <div class="mainHeader">
+        <button type="button" class="sidebarButton">
+            <i class="fa-solid fa-wallet fa-2xl"></i>
+        </button>
+        <p>Thay đổi tham số</p>
+    </div>
+    <div class="wrapper">
+        <form action="#" id="form" method="POST">
+            <div class="minDay box">
+                <label for="minDay">Số ngày tối thiểu để rút tiền:</label>
+                <input type="number" id="minDay" name="minDay" value ='{{Param.NgayRutToiThieu}}'>
+            </div>
+            <div class="minDeposit box">
+                <label for="minDeposit">Số tiền gửi tối thiểu:</label>
+                <input type="number" id="minDeposit" name="minDeposit" value = '{{Param.TienGuiToiThieu}}'>
+            </div>
+            <div id="btn_side">
+                <button id="confirmBtn" type="submit" value="Tạo">Sửa</button>
+                <a href="/home"><button id="gobackBtn" type="button">Quay lại</button></button></a>
+            </div>
+        </form>
+    </div>
+</div>

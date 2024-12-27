@@ -1,6 +1,6 @@
 .main {
     /* background-color: #E5E5E5; */
-    background-image: linear-gradient(to bottom, #FFFFFF, #aaeaff);
+    /* background-image: linear-gradient(to bottom, #FFFFFF, #aaeaff); */
     min-width: calc(100% - 225px);
     min-height: 100%;
     overflow-y: auto;
@@ -27,7 +27,7 @@
 
 .main .sidebarButton {
     color: #003547;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     border-radius: 2rem;
     border: none;
     display: none;
@@ -54,6 +54,7 @@
 .main #form .box label {
     align-items: center;
     display: flex;
+    padding: 0.5em 15%
 }
 
 .main #form .box input:not([type="radio"]) {
@@ -65,7 +66,7 @@
 
 .main #form .box input:read-only {
     /* color:rgb(208, 203, 203); */
-    background-color: #cccccc;
+    /* background-color: #cccccc; */
 }
 
 /* .main #form .box div {
@@ -78,6 +79,7 @@
 
 .wrapper {
     position: relative;
+    margin-bottom: 20px;
 }
 
 .main #form #btn_side {
@@ -100,7 +102,7 @@
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
-    background: linear-gradient(65.44deg, #d01b1b 0%, #ff4242 94.64%);
+    background: black;
     border: 0px;
     border-radius: 20px;
     margin: 0px 5%;

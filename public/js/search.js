@@ -79,7 +79,6 @@ function getJSBTN() {
           document.querySelector("#myModal #deadlineID").value = depositInfo.KyHanApDung
           document.querySelector("#myModal #rateID").value = depositInfo.LaiSuatApDung * 100 + '%'
           document.querySelector("#myModal #benefitID").value = formatCurrency(depositInfo.TienLai)
-          document.querySelector("#myModal #remainderID").value = formatCurrency(depositInfo.TienGui + depositInfo.TienLai)
           document.querySelector("#myModal #openDay").value = depositInfo.NgayGui.replace('T', " ").replace('.000Z', "")
 
           document.querySelector("#myModal #dateID").value = (depositInfo.NgayRut == null) ? 'Chưa rút' : depositInfo.WithdrawalDate.replace('T', " ").replace('.000Z', "")

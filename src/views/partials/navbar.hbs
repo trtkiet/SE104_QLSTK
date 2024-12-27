@@ -31,6 +31,20 @@
                     {{!-- {{#if active.deposit}} <i class="iconActive"></i> {{/if}} --}}
                 </a>
             </li>
+            <li>
+                <a href="/change" {{#if active.deposit}} class="active" {{else}} class="inactive" {{/if}}>
+                    <i class="fa-solid fa-align-justify"></i>
+                    <span>Thay đổi tham số </span>
+                    {{!-- {{#if active.deposit}} <i class="iconActive"></i> {{/if}} --}}
+                </a>
+            </li>
+            <li>
+                <a href="/type" {{#if active.deposit}} class="active" {{else}} class="inactive" {{/if}}>
+                    <i class="fa-solid fa-align-justify"></i>
+                    <span>Thay đổi loại tiết kiệm</span>
+                    {{!-- {{#if active.deposit}} <i class="iconActive"></i> {{/if}} --}}
+                </a>
+            </li>
             {{/if}}
         </ul>
     </nav>

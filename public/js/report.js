@@ -26,9 +26,6 @@ document.getElementById('form').addEventListener('submit', function (event) {
                 }
                 total = data.sumReport[0]
                 totalInterestTypes = data.detailReport[0]
-                document.getElementById('get').value = formatCurrency(total.TongThu)
-                document.getElementById('pay').value = formatCurrency(total.TongChi)
-                document.getElementById('benefit').value = formatCurrency(total.ChenhLech)
 
                 var TableBody = document.querySelector('#tbody');
                 while (TableBody.firstChild) {
@@ -48,6 +45,14 @@ document.getElementById('form').addEventListener('submit', function (event) {
                         '</tr>';
                     TableBody.insertAdjacentHTML('beforeend', newRow);
                 }
+                var newRow = '<tr>' +
+                        `<td></th>` +
+                        `<td>Tổng cộng</th>` +
+                        `<td>${formatCurrency(total.TongThu)}</th>` +
+                        `<td>${formatCurrency(total.TongChi)}</th>` +
+                        `<td>${formatCurrency(total.ChenhLech)}</th>` +
+                        '</tr>';    
+                TableBody.insertAdjacentHTML('beforeend', newRow);
             })
     }
 

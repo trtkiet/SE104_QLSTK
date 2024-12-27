@@ -36,6 +36,10 @@ module.exports = {
         var rs = await db.Query(`select * from LOAITK `)
         return rs;
     },
+    getInterestType: async (ID) => {
+        var rs = await db.Query(`select * from LOAITK where MaLoaiTK = ${ID}`)
+        return rs;
+    },
     getSumDeposit: async (MaKH) => {
         var rs = await db.Query(`SELECT SUM(TienGui) as Total FROM PHIEUGUI WHERE MaKH = '${MaKH}' AND NgayDong IS NULL`)
         // console.log(rs)
@@ -88,8 +92,8 @@ module.exports = {
         var rs = await db.Query(`delete  Deposits where DepositID= ${DepositID}`)
         return rs
     },
-    updateParam: async (MinimumDeposit) => {
-        var rs = await db.Query(`exec dbo.updateMinimumDeposit '${MinimumDeposit}' `)
+    updateParam: async (NgayRutToiThieu, TienGuiToiThieu) => {
+        var rs = await db.Query(`UPDATE THAMSO SET NgayRutToiThieu = ${NgayRutToiThieu}, TienGuiToiThieu = ${TienGuiToiThieu}`)
         return rs
     },
     blockOrunlock: async (state, InterestTypeID) => {
@@ -99,13 +103,14 @@ module.exports = {
             var rs = await db.Query(`exec dbo.unblockInterestType  ${InterestTypeID}`)
         return rs
     },
-    addInterestType: async (InterestRate, Term, MinimumTimeToWithdrawal) => {
-        var rs = await db.Query(`exec dbo.addInterestType  ${InterestRate},${Term},${MinimumTimeToWithdrawal}`)
+    addInterestType: async (InterestRate, Term) => {
+        console.log(InterestRate, Term)
+        var rs = await db.Query(`INSERT INTO LOAITK(LaiSuat, KyHan) VALUES (${InterestRate},${Term})`)
         return rs
     },
-    updateInterestType: async (InterestTypeID, MinimumTimeToWithdrawal) => {
+    updateInterestType: async (InterestTypeID, KyHan, LaiSuat) => {
 
-        var rs = await db.Query(`exec dbo.updateInterestType ${InterestTypeID},${MinimumTimeToWithdrawal}`)
+        var rs = await db.Query(`UPDATE LOAITK SET KyHan = ${KyHan}, LaiSuat = ${LaiSuat} WHERE MaLoaiTK = ${InterestTypeID}`)
         return rs
     },
     getBalance: async (username) => {
@@ -117,6 +122,10 @@ module.exports = {
         var rs = await db.Query(`select MaNhom from NGUOIDUNG where MaNguoiDung = '${username}'`)
         // console.log(rs)
         return rs[0].MaNhom;
-    }
+    },
+    deleteInterestType: async (InterestTypeID) => {
+        var rs = await db.Query(`DELETE FROM LOAITK WHERE MaLoaiTK = ${InterestTypeID}`)
+        return rs
+    },
 }
 
