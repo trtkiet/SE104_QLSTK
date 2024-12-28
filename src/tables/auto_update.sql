@@ -18,29 +18,11 @@ Luu y: phai chay server vao luc 0h thi moi thay nha, de test thi ong co the doi 
 
 
 -- step 1: cap nhat tien lai khi den ky
-INSERT INTO Transactions 
-SELECT Deposits.DepositID, 
-		Balance * InterestTypes.InterestRate / 100 * NoDays / 360, 
-		Balance * (1 + InterestTypes.InterestRate/100 * NoDays / 360), GETDATE()
-FROM (SELECT TOP 1 WITH TIES *, DATEDIFF(minute, Transactions.TransactionDate, GETDATE()) AS NoDays -- doi day sang minute de test
-		FROM Transactions 
-		WHERE Balance > 0 -- is not withdrawn yet
-		ORDER BY ROW_NUMBER() OVER(PARTITION BY DepositID ORDER BY TransactionID DESC)) 
-	AS LatestTransactions JOIN Deposits ON LatestTransactions.DepositID = Deposits.DepositID
-	JOIN InterestTypes ON Deposits.InterestTypeID = InterestTypes.InterestTypeID
-WHERE Withdrawer IS NULL AND NoDays > 0
-	  AND (Term = 0 OR NoDays % (Term * 30) = 0) -- minutes
 
 
 
 
 -- step 2:  auto insert phieuGT moi vao transactions vao 0h ngay hom sau ngay gui 
-INSERT INTO Transactions
-SELECT DepositID, Fund, Fund, GETDATE() 
-FROM Deposits D
-WHERE Withdrawer IS NULL 
-	 AND NOT EXISTS (SELECT * FROM Transactions T 
-		    WHERE D.DepositID = T.DepositID)
 
 
 GO
@@ -48,23 +30,53 @@ UPDATE NGUOIDUNG
 SET SoDuNguoiDung = SoDuNguoiDung + (
 	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung), 0)
 	FROM PHIEUGUI 
-	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 1 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 0 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
 )
 
 GO
 UPDATE PHIEUGUI 
 SET TienLai = TienLai + (TienGui + TienLai) * LaiSuatApDung / 365 * KyHanApDung
-WHERE LoaiTaiTuc = 2 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+WHERE LoaiTaiTuc = 1 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
 
 GO
 UPDATE NGUOIDUNG 
 SET SoDuNguoiDung = SoDuNguoiDung + (
 	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung) + SUM(TienGui), 0)
 	FROM PHIEUGUI 
-	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 3 AND NgayDong = NULL AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 2 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
 )
 
 GO
 UPDATE PHIEUGUI
 SET TienLai = 0, NgayDong = GETDATE()
-WHERE LoaiTaiTuc = 3 AND NgayDong = NULL AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0
+WHERE LoaiTaiTuc = 2 AND DATEDIFF(day, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(day, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
+
+
+
+
+--------------------------------------- DEMO
+GO
+UPDATE NGUOIDUNG 
+SET SoDuNguoiDung = SoDuNguoiDung + (
+	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung), 0)
+	FROM PHIEUGUI 
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
+)
+
+GO
+UPDATE PHIEUGUI 
+SET TienLai = TienLai + (TienGui + TienLai) * LaiSuatApDung / 365 * KyHanApDung
+WHERE LoaiTaiTuc = 1 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
+
+GO
+UPDATE NGUOIDUNG 
+SET SoDuNguoiDung = SoDuNguoiDung + (
+	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung) + SUM(TienGui), 0)
+	FROM PHIEUGUI 
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong = NULL
+)
+
+GO
+UPDATE PHIEUGUI
+SET TienLai = 0, NgayDong = GETDATE()
+WHERE LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong = NULL
