@@ -65,6 +65,8 @@ module.exports = {
         if (accountType == 2) isStaff = true
         var isCustomer = false;
         if (accountType == 1) isCustomer = true
+        param = await passbookM.getParams()
+        // console.log(param[0])
         res.render('passbookDetail', {    
             layout: "working",
             title: "Rút tiền",
@@ -76,13 +78,15 @@ module.exports = {
             withdraw: withdraw,
             isCustomer: isCustomer,
             isStaff: isStaff,
+            param: param[0]
         })
     },
     detailPost: async (req, res) => {
-        console.log(req.body)
-        var err = await passbookM.CreateWithdraw(req.body.passbookID)
+        // console.log(req.body)
+        console.log(req.body.withdraw.replaceAll('.', ''))
+        var err = await passbookM.CreateWithdraw(req.body.passbookID, parseInt(req.body.withdraw.replaceAll('.', '')))
         err = err[0].err
-        console.log(err)
+        // console.log(err)
         if (err == 1){
             res.json({msg: "Rút tiền không thành công do chưa tới ngày rút tối thiểu"})
         }
@@ -96,12 +100,16 @@ module.exports = {
         const LoaiTK = await passbookM.getLoaiTK()
         const user = await userM.getAccountByUsername(username)
         // console.log(user)
-        const Params = await passbookM.getParams()
+        const param = await passbookM.getParams()
         const accountType = await passbookM.getUserType(req.session.passport.user)
         var isStaff = false;
         if (accountType == 2) isStaff = true
         var isCustomer = false;
         if (accountType == 1) isCustomer = true
+        console.log(param[0])
+        for (i = 0; i < LoaiTK.length; i++) {
+            LoaiTK[i].LaiSuat *= 100
+        }
         res.render('createDeposit', {
             active: { deposit: true },
             layout: "working",
@@ -115,17 +123,16 @@ module.exports = {
             // username: Username,
             LoaiTK: LoaiTK,
             isCustomer: isCustomer,
-            isStaff: isStaff
+            isStaff: isStaff,
             // InterestType: InterestType,
-            // MinMoneyDeposit: null,
-            // Params: (Params.length == 0) ? 0 : Params[0].MinimumDeposit
+            param: param[0]
         })
     },
     createDepositPost: async (req, res) => {
         const username = req.session.passport.user
         const user = await userM.getAccountByUsername(username)
         // console.log(req.body.type)
-        const LoaiTK = await passbookM.getLoaiTK(req.body.type.split(' ')[0], req.body.type.split(' ')[3].replace('%', ''))
+        const LoaiTK = await passbookM.getLoaiTK(req.body.type.split(' ')[0], parseFloat(req.body.type.split(' ')[3].replace('%', '')) / 100)
         const LoaiTT = await passbookM.getLoaiTT(req.body.type1)
         // console.log(LoaiTK)
         Deposits = {

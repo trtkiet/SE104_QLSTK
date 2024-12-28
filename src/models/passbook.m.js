@@ -6,8 +6,9 @@ module.exports = {
         // console.log(rs)
         return rs
     },
-    CreateWithdraw: async (DepositID, Withdrawer) => {
-        rs = await db.Query(`EXEC dbo.CreateWithdraw '${DepositID}'`)
+    CreateWithdraw: async (DepositID, Withdraw) => {
+        // console.log(DepositID, Withdraw)
+        rs = await db.Query(`EXEC dbo.CreateWithdraw '${DepositID}', ${Withdraw}`)
         return rs
     },
     getParams: async () => {

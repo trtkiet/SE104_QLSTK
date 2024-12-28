@@ -170,7 +170,7 @@ BEGIN
 			@LaiSuatApDung = LaiSuat
 	FROM LOAITK 
 	WHERE MaLoaiTK = @InterestTypeID
-	SELECT @NgayDaoHan = GETDATE() + @KyHanApDung
+	SELECT @NgayDaoHan = (select DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0)) + @KyHanApDung
 	INSERT INTO PHIEUGUI 
 	VALUES (@InterestTypeID, @CustomerID, @KyHanApDung, @LaiSuatApDung, @NgayDaoHan, @LoaiTT, (select DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0)), @Fund, 0, NULL);
 	SELECT 1 as err
@@ -237,9 +237,9 @@ END
 GO
 DROP PROCEDURE dbo.CreateWithdraw
 GO
-
 CREATE PROCEDURE dbo.CreateWithdraw 
-				@MaPhieu INT
+				@MaPhieu INT,
+				@Withdraw Money
 AS
 BEGIN
 	SET NOCOUNT ON
@@ -257,22 +257,13 @@ BEGIN
 		FROM PHIEUGUI 
 		WHERE MaPhieu = @MaPhieu
 	)
-	IF (DATEDIFF(day, @NgayGui, GETDATE()) < @NgayRutToiThieu)
-		BEGIN
-			SELECT 1 as err
-		END 
-	ELSE 
-		BEGIN
 			UPDATE PHIEUGUI 
 			SET NgayDong = GETDATE()
 			WHERE MaPhieu = @MaPhieu
-			DECLARE @Withdraw Money
-			EXEC @Withdraw = dbo.getWithdraw @MaPhieu
-			UPDATE NGUOIDUNG 
+			UPDATE NGUOIDUNG
 			SET SoDuNguoiDung = SoDuNguoiDung + @Withdraw
 			WHERE MaNguoiDung = @MaKH
 			SELECT 0 as err
-		END
 END
 GO
 DROP PROCEDURE dbo.searchDeposit
@@ -326,3 +317,4 @@ BEGIN
 
 END
 
+SELECT GETDATE() - 90

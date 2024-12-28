@@ -2,8 +2,16 @@
 var check = true
 
 function checkinput() {
-    // console.log(check);
-    return check
+    var depositdate = document.getElementById("depositdate").value
+    depositdate = new Date(depositdate)
+    console.log(document.getElementById("minDate").value)
+    depositdate.setDate(depositdate.getDate() + parseInt(document.getElementById("minDate").value))
+    console.log(depositdate)
+    if (depositdate > new Date()) {
+        alert("Chưa tới hạn rút tiền tối thiểu(" + document.getElementById("minDate").value + " ngày)! Vui lòng quay lại sau.")
+        return false
+    }
+    return true
 }
 
 async function postData(url = '', data = {}) {
@@ -20,7 +28,7 @@ async function postData(url = '', data = {}) {
 document.getElementById("form").addEventListener('submit', function (event) {
     console.log('click')
     event.preventDefault();
-        if (confirm("Xác nhận rút tiền trong sổ tiết kiệm?")) {
+        if (checkinput() && confirm("Xác nhận rút tiền trong sổ tiết kiệm?")) {
             var form = event.target;
             var formData = {};
             for (var i = 0; i < form.elements.length - 1; i++) {

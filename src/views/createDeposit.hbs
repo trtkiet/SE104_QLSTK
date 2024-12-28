@@ -34,12 +34,12 @@
             </div>
             <div class="depositBox box">
                 <label for="deposit">Số tiền gửi<div class="asterisk" style="color:red;">*</div>:</label> 
-                <input type="number" id="deposit" name="deposit" placeholder="Nhập số tiền gửi" step="500"
-                    min={{Params}}>
+                <input type="number" id="deposit" name="deposit" placeholder="Nhập số tiền gửi" step="1"
+                    min={{param.TienGuiToiThieu}}>
             </div>
             <div class="typeBox box">
                         <label for="type1">Loại tái tục<div class="asterisk" style="color:red;">*</div>: </label> 
-                        <input id="type1" name="type1" placeholder="Chọn loại tái tục" list="choice1" autocomplete="off">
+                        <input id="type1" name="type1" placeholder="Chọn loại tái tục" list="choice1" autocomplete="on">
                          <datalist id="choice1">
                             <option value="Tái tục gốc">
                             <option value="Tái tục toàn bộ">

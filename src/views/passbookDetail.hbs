@@ -3,7 +3,7 @@
         <button type="button" class="sidebarButton">
             <i class="icon iconSidebar"></i>
         </button>
-        <p>Rút tiền</p>
+        <p>Chi tiết phiếu</p>
     </div>
     <div>
         <form action="/passbook/detail/withdraw" id="form" method="POST">
@@ -36,6 +36,7 @@
                 <label for="withdraw">Tổng số tiền rút hiện tại:</label>
                 <input type="money" id="withdraw" name="withdraw" step="1" min="100000" value="{{withdraw}}"readonly>
             </div>
+            <input type="number" id="minDate" name="minDate" value="{{param.NgayRutToiThieu}}" hidden>
             <div id="btn_side">
                 <input id="confirmBtn" type="submit" value="Tất toán" formaction="/passbook/detail/withdraw"></input>
                 <a href="/passbook"><button id="gobackBtn" type="button"> Quay lại</button> </a>

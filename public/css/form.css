@@ -39,7 +39,7 @@
 } */
 
 .main #form {
-    font-size: 20px;
+    font-size: 15px;
     color: #003547;
     font-weight: bold;
 }
@@ -93,6 +93,8 @@
     border: 0px;
     border-radius: 20px;
     /* margin: 0px 5%; */
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .main #form #btn_side button,
