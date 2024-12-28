@@ -3,12 +3,12 @@ var nameRegex =
 var idRegex = /([1-9]{1})+([0-9]{8,11})\b/;
 
 function checkinput() {
-  if ($("#KyHan").val().trim() == "" || $("#KyHan").val() < 0) {
+  if ($("#KyHan").val().trim() == "" || $("#KyHan").val() <= 0) {
     alert("Kỳ hạn không hợp lệ!");
     return false;
     
   }
-  if ($("#LaiSuat").val().trim() == "" || $("#LaiSuat").val() < 0) {
+  if ($("#LaiSuat").val().trim() == "" || $("#LaiSuat").val() <= 0) {
     alert("Lãi suất không hợp lệ!");
     return false;
   }
@@ -18,12 +18,12 @@ function checkinput() {
 function checkinputChange() {
   
   console.log($("#rateID").val)
-  if ($("#deadlineID").val().trim() == "" || $("#deadlineID").val() < 0) {
+  if ($("#deadlineID").val().trim() == "" || $("#deadlineID").val() <= 0) {
     alert("Kỳ hạn không hợp lệ!");
     return false;
     
   }
-  if ($("#rateID").val().trim() == "" || $("#rateID").val() < 0) {
+  if ($("#rateID").val().trim() == "" || $("#rateID").val() <= 0) {
     alert("Lãi suất không hợp lệ!");
     return false;
   }

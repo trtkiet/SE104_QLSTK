@@ -1,11 +1,12 @@
 
 function checkinput() {
-    if ($("#minDay").val().trim() === "") {
-        alert("Không bỏ trống số ngày tối thiểu để rút tiền!")
+    console.log($("#minDay").val(), $("#minDeposit").val())
+    if ($("#minDay").val().trim() === "" || $("#minDay").val() <= 0) {
+        alert("Số ngày tối thiểu để rút tiền không hợp lệ!")
         return false;
     }
-    if ($("#minDeposit").val().trim() === "") {
-        alert("Không bỏ trống số tiền gửi tối thiểu!")
+    if ($("#minDeposit").val().trim() === "" || $("#minDeposit").val() <= 0) {
+        alert("Số tiền gửi tối thiểu không hợp lệ!")
         return false;
     }
     return true
@@ -27,7 +28,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
                 
             })
             alert("Thay đổi tham số thành công")
-            location.reload()
+            // location.reload()
     }
 
 

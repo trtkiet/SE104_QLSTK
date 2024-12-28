@@ -38,7 +38,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
                 for (i in totalInterestTypes) {
                     var newRow = '<tr>' +
                         `<td>${i}</th>` +
-                        `<td>${totalInterestTypes[i].MaLoaiTK}</th>` +
+                        `<td>${totalInterestTypes[i].KyHanApDung} ngày - Lãi suất: ${totalInterestTypes[i].LaiSuatApDung}%</th>` +
                         `<td>${formatCurrency(totalInterestTypes[i].TongThu)}</th>` +
                         `<td>${formatCurrency(totalInterestTypes[i].TongChi)}</th>` +
                         `<td>${formatCurrency(totalInterestTypes[i].ChenhLechDS)}</th>` +

@@ -128,5 +128,10 @@ module.exports = {
         var rs = await db.Query(`DELETE FROM LOAITK WHERE MaLoaiTK = ${InterestTypeID}`)
         return rs
     },
+
+    getNoDay: async (DepositID) => {
+        var rs = await db.Query(`SELECT DATEDIFF(day, NgayGui, GETDATE()) as NoDay FROM PHIEUGUI WHERE MaPhieu = ${DepositID}`)
+        return rs;
+    },
 }
 

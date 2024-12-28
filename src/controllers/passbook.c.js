@@ -31,6 +31,7 @@ module.exports = {
         if (accountType == 2) isStaff = true
         var isCustomer = false;
         if (accountType == 1) isCustomer = true
+        
         res.render('passbookList', {
             // active: {passbook: true},
             layout: "working",
@@ -69,6 +70,10 @@ module.exports = {
         if (accountType == 1) isCustomer = true
         param = await passbookM.getParams()
         // console.log(param[0])
+        const noday = await passbookM.getNoDay(passbook.MaPhieu)
+        if (noday[0].NoDay < param[0].NgayRutToiThieu){
+            withdraw = "Chưa tới hạn rút tối thiểu"
+        }
         res.render('passbookDetail', {    
             layout: "working",
             title: "Rút tiền",
