@@ -128,7 +128,7 @@ formSearch.addEventListener('submit', function (event) {
             `<td>${datas.detailDeposit[i].MaPhieu}</th>` +
             `<td>${datas.detailDeposit[i].MaKH}</th>` +
             `<td>${datas.detailDeposit[i].TenNguoiDung}</th>` +
-            `<td>${formatCurrency(datas.detailDeposit[i].TienGui + datas.detailDeposit[i].TienLai)}</th>` +
+            `<td>${formatCurrency(datas.detailDeposit[i].TienGui)}</th>` +
             `<td>${datas.detailDeposit[i].NgayGui.replace('T', " ").replace('.000Z', "")}</th>` +
             '<td><button class="myBtn">Xem</button></td>' +
             '</tr>';

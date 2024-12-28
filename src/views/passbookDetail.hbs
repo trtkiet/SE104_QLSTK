@@ -29,8 +29,12 @@
                 <input type="date" id="expdate" name="expdate" value ="{{passbook.NgayDaoHan}}" readonly>
             </div>
             <div class = "depositBox box">
-                <label for="deposit">Số dư trong sổ:</label>
-                <input type="money" id="deposit" name="deposit" step="1" min="100000" value="{{deposit}}"readonly>
+                <label for="deposit">Tiền gửi ban đầu:</label>
+                <input type="money" id="deposit" name="deposit" step="1" value="{{passbook.TienGui}}"readonly>
+            </div>
+            <div class = "depositAddBox box">
+                <label for="depositAdd">Tiền lãi:</label>
+                <input type="money" id="depositAdd" name="depositAdd" step="1" value="{{passbook.TienLai}}"readonly>
             </div>
             <div class = "withdrawBox box">
                 <label for="withdraw">Tổng số tiền rút hiện tại:</label>

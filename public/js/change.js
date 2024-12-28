@@ -24,8 +24,10 @@ document.getElementById('form').addEventListener('submit', function (event) {
     if (checkinput() && confirm('Xác nhận thay đổi tham số?')) {
         postData('/change', formData)
             .then((data) => {
-                alert("Thay đổi tham số thành công")
+                
             })
+            alert("Thay đổi tham số thành công")
+            location.reload()
     }
 
 

@@ -60,6 +60,8 @@ module.exports = {
         deposit = passbook.TienGui + passbook.TienLai
         deposit = deposit.toLocaleString('vi', {style : 'currency', currency : 'VND'})
         withdraw = withdraw.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+        passbook.TienGui = passbook.TienGui.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+        passbook.TienLai = passbook.TienLai.toLocaleString('vi', {style : 'currency', currency : 'VND'})
         const accountType = await passbookM.getUserType(req.session.passport.user)
         var isStaff = false;
         if (accountType == 2) isStaff = true

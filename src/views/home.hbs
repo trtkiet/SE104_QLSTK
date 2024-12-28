@@ -4,9 +4,10 @@
             <button type="button" class="sidebarButton">
                 <i class="fa-solid fa-wallet fa-2xl"></i>
             </button>
-            <p>Sổ tiết kiệm</p>
+            <p>Xin chào!</p>
             <div></div>
         </div>
+        {{#if isCustomer}}
         <div class="summary">
             <div class="sum">
                 <i class="icon iconSum"></i>
@@ -19,6 +20,7 @@
                 <h1 id="Monthwithdraw">{{balance}}</h1>
             </div>
         </div>
+        {{/if}}
         {{#if hideForm}}
         <div class="leastBox box">
             <form action="#" ,class="form" id="form" style="display: contents;">
@@ -76,5 +78,6 @@
             </table>
             {{/if}}
         </div>
+        
     </div>
 </div>
