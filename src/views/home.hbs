@@ -20,7 +20,7 @@
                 <h1 id="Monthwithdraw">{{balance}}</h1>
             </div>
         </div>
-        {{/if}}
+        
         {{#if hideForm}}
         <div class="leastBox box">
             <form action="#" ,class="form" id="form" style="display: contents;">
@@ -67,7 +67,7 @@
                 <tr>
                     <th style="width: 20%;">Mã Loại</th>
                     <th style="width: 40%;">Kỳ hạn (Ngày)</th>
-                    <th style="width: 40%;">Lãi suất </th>
+                    <th style="width: 40%;">Lãi suất (%) </th>
                 {{#each type}}
                 <tr>
                     <td>{{this.MaLoaiTK}}</td>
@@ -78,6 +78,9 @@
             </table>
             {{/if}}
         </div>
-        
+        {{/if}}
+        {{#if isStaff}}
+        <img src="../img/banner.jpg" alt="" width="1200" height="600">
+        {{/if}}
     </div>
 </div>

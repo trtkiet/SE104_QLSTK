@@ -273,13 +273,14 @@ CREATE PROCEDURE dbo.searchDeposit
 				@DinhDanh NVARCHAR(40) = NULL,
 				@MaPhieu INT = NULL, 
 				@NgayGui SMALLDATETIME = NULL,
+				@MaLoaiTK INT = NULL,
 				@MaNguoiDung NVARCHAR(20) = NULL
 AS 
 BEGIN
 	SET NOCOUNT ON
 	SELECT *
 	FROM PHIEUGUI INNER JOIN NGUOIDUNG ON MaKH = MaNguoiDung
-	WHERE (@DinhDanh IS NULL OR DinhDanh = @DinhDanh) AND (@MaPhieu = 0 OR MaPhieu = @MaPhieu) AND (@NgayGui IS NULL OR NgayGui = @NgayGui) AND (@MaNguoiDung IS NULL OR MaNguoiDung = @MaNguoiDung)
+	WHERE (@DinhDanh IS NULL OR DinhDanh = @DinhDanh) AND (@MaPhieu = 0 OR MaPhieu = @MaPhieu) AND (@NgayGui IS NULL OR NgayGui = @NgayGui) AND (@MaNguoiDung IS NULL OR MaNguoiDung = @MaNguoiDung) AND (@MaLoaiTK IS NULL OR @MaLoaiTK = MaLoaiTK)
 END
 GO
 DROP PROCEDURE dbo.makeReportByDay

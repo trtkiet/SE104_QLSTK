@@ -58,13 +58,13 @@ module.exports = {
         }
         return rs;
     },
-    searchDeposit: async (citizenID, depositID, dateID, username) => {
+    searchDeposit: async (citizenID, depositID, dateID, interestID, username) => {
         var rs;
         if (citizenID != null) citizenID = `'${citizenID}'`
         if (dateID != null) dateID = `'${dateID}'`
         if (username != null) username = `'${username}'`
         console.log(citizenID, depositID, dateID, username)
-        rs = await db.Query(`exec dbo.searchDeposit ${citizenID},${depositID},${dateID},${username}`);
+        rs = await db.Query(`exec dbo.searchDeposit ${citizenID},${depositID},${dateID}, ${interestID}, ${username}`);
         return rs;
     },
     makeReportByDay: async Day => {

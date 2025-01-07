@@ -239,18 +239,19 @@ module.exports = {
         const citizenID = (req.body.citizenID == "") ? null : req.body.citizenID
         const depositID = (req.body.depositID == "") ? 0 : req.body.depositID
         const dateID = (req.body.dateID == "") ? null : req.body.dateID
+        const interestID = (req.body.interestID == "") ? null : req.body.interestID
         var username = req.session.passport.user;
         // console.log(username)
         var type = await passbookM.getUserType(username)
         if (type != 1) username = null
-        detailDeposit = await passbookM.searchDeposit(citizenID, depositID, dateID, username)
+        detailDeposit = await passbookM.searchDeposit(citizenID, depositID, dateID, interestID, username)
         console.log(detailDeposit)
         res.json({
             detailDeposit: detailDeposit
         })
     },
     detailsPost: async (req, res) => {
-        depositInfo = await passbookM.searchDeposit(null, req.body.DepositID, null, null)
+        depositInfo = await passbookM.searchDeposit(null, req.body.DepositID, null, null, null)
 
         res.json({
             depositInfo: depositInfo[0],

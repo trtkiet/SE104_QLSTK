@@ -73,10 +73,10 @@ UPDATE NGUOIDUNG
 SET SoDuNguoiDung = SoDuNguoiDung + (
 	SELECT COALESCE(SUM(TienGui * LaiSuatApDung / 365 * KyHanApDung) + SUM(TienGui), 0)
 	FROM PHIEUGUI 
-	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
+	WHERE MaNguoiDung = MaKH AND LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL AND KyHanApDung != 0
 )
 
 GO
 UPDATE PHIEUGUI
 SET TienLai = 0, NgayDong = (select DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0))
-WHERE LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL
+WHERE LoaiTaiTuc = 2 AND DATEDIFF(SECOND, GETDATE(), NgayGui) % KyHanApDung = 0 AND DATEDIFF(SECOND, GETDATE(), NgayGui) != 0 AND NgayDong IS NULL AND KyHanApDung != 0

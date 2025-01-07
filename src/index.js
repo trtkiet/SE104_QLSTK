@@ -47,7 +47,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-port = process.env.PORT || 30001;
+port = process.env.PORT || 3000;
 
 app.use('/login', loginR)
 app.use('/register', registerR) 

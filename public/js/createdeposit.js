@@ -16,6 +16,11 @@ function checkinput() {
         alert("Số tiền không hợp lệ!");
         return false;
     }
+    console.log($("#type").val().split(' ')[0])
+    if ($("#type").val().split(' ')[0] == "1" && $("#type1").val() != "Không tái tục") {
+        alert("Loại tiết kiệm 1 ngày chỉ có thể chọn loại tái tục không tái tục!");
+        return false;
+    }
     return true;
 }
 var inputField = document.getElementById('type');
